@@ -1,12 +1,21 @@
+<h4>
+Results: <span *ngIf="publications">{{ publications.length }}</span>
+</h4>
 <table class="table">
     <thead>
         <tr>
             <th>#</th>
             <th>Title</th>
+            <th>Year</th>
+            <th>Reference</th>
+            <th>Authors</th>
         </tr>
     </thead>
     <tr *ngFor="let pub of publications">
         <th scope="row">{{ pub.id }}</th>
         <td>{{ pub.title }}</td>
+        <td>{{ pub.year }}</td>
+        <td>{{ pub.reference }}</td>
+        <td>{{ pub.authors }}</td>
     </tr>
 </table>
