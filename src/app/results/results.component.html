@@ -1,0 +1,12 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let pub of publications">
+        <th scope="row">{{ pub.id }}</th>
+        <td>{{ pub.title }}</td>
+    </tr>
+</table>
