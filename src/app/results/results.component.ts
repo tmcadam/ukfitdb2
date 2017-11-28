@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PublicationsService } from '../publications.service';
+import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-results',
@@ -9,6 +9,6 @@ import { PublicationsService } from '../publications.service';
 export class ResultsComponent {
 
     @Input() state: string;
-    constructor(private publicationsService: PublicationsService) { }
-    
+    constructor(private search: SearchService) { }
+
 }

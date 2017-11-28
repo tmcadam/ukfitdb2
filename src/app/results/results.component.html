@@ -1,6 +1,6 @@
 <div *ngIf="state == 'results'">
 <h4>
-Results: <span *ngIf="publicationsService.publications">{{ publicationsService.publications.length }}</span>
+Results: <span *ngIf="search.results">{{ search.results.length }}</span>
 </h4>
 <table class="table">
     <thead>
@@ -12,7 +12,7 @@ Results: <span *ngIf="publicationsService.publications">{{ publicationsService.p
             <th>Authors</th>
         </tr>
     </thead>
-    <tr *ngFor="let pub of publicationsService.publications">
+    <tr *ngFor="let pub of search.results">
         <th scope="row">{{ pub.id }}</th>
         <td>{{ pub.title }}</td>
         <td>{{ pub.year }}</td>
