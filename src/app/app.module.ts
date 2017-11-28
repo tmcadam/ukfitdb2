@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search.service';
 import { DataTablesModule } from 'angular-datatables';
+import { PersistenceModule } from 'angular-persistence';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DataTablesModule } from 'angular-datatables';
   ],
   imports: [
     BrowserModule,
-    DataTablesModule
+    DataTablesModule,
+    PersistenceModule
   ],
   providers: [PublicationsService, SearchService],
   bootstrap: [AppComponent]
