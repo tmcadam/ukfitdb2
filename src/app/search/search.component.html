@@ -1,6 +1,8 @@
 <div class="input-group" id="search">
-    <input type="text" class="form-control" placeholder="Enter a search term" #searchInput>
+    <input type="text" class="form-control" placeholder="Enter a search term" #searchInput (keyup.enter)="search(searchInput.value)">
     <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button" (click)="search(searchInput.value)">Search</button>
+        <button class="btn btn-secondary"
+                type="button"
+                (click)="search(searchInput.value)">Search</button>
     </span>
 </div>
