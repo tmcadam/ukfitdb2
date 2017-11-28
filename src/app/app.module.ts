@@ -7,6 +7,7 @@ import { IntroductionComponent } from './introduction/introduction.component';
 import { SearchComponent } from './search/search.component';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search.service';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SearchService } from './search.service';
     SearchComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    DataTablesModule
   ],
   providers: [PublicationsService, SearchService],
   bootstrap: [AppComponent]
