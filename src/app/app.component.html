@@ -1,6 +1,6 @@
 <h1>
     FIT Publications Database
 </h1>
-<app-search></app-search>
+<app-search (stateUpdate)="stateUpdate($event)"></app-search>
 <app-introduction [state]="state"></app-introduction>
 <app-results [state]="state"></app-results>

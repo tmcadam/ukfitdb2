@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     state: string = 'home';
+
+    stateUpdate(event: string) {
+        this.state = event;
+        console.log(this.state);
+    }
 }
