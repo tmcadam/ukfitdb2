@@ -1,3 +1,4 @@
+<div *ngIf="state == 'results'">
 <h4>
 Results: <span *ngIf="publications">{{ publications.length }}</span>
 </h4>
@@ -19,3 +20,4 @@ Results: <span *ngIf="publications">{{ publications.length }}</span>
         <td>{{ pub.authors }}</td>
     </tr>
 </table>
+</div>
