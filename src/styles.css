@@ -3,13 +3,6 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 @import "~font-awesome/css/font-awesome.css";
 
-.container {
-    width: 100%;
-}
-div.row {
-    width: 100%;
-    margin: 0px;
-}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

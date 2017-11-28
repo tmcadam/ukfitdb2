@@ -7,7 +7,6 @@ import { IntroductionComponent } from './introduction/introduction.component';
 import { SearchComponent } from './search/search.component';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search.service';
-import { DataTablesModule } from 'angular-datatables';
 import { PersistenceModule } from 'angular-persistence';
 
 @NgModule({
@@ -19,7 +18,6 @@ import { PersistenceModule } from 'angular-persistence';
   ],
   imports: [
     BrowserModule,
-    DataTablesModule,
     PersistenceModule
   ],
   providers: [PublicationsService, SearchService],
