@@ -1,0 +1,22 @@
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+.table-detail {
+    padding-left: 60px;
+    font-size: 14px;
+    td {
+        vertical-align: top;
+        padding: 5px;
+    }
+    .heading {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 12px;
+    }
+    .heading.id {
+        float: right;
+        margin-right: 10px;
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+}

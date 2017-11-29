@@ -8,6 +8,7 @@ import { SearchComponent } from './search/search.component';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search.service';
 import { PersistenceModule } from 'angular-persistence';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PersistenceModule } from 'angular-persistence';
   ],
   imports: [
     BrowserModule,
-    PersistenceModule
+    PersistenceModule,
+    NgxDatatableModule
   ],
   providers: [PublicationsService, SearchService],
   bootstrap: [AppComponent]

@@ -1,21 +1,47 @@
 <div *ngIf="state == 'results'">
-<h5>Results: <span *ngIf="search.results">{{ search.results.length }}</span></h5>
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Year</th>
-            <th>Reference</th>
-            <th>Authors</th>
-        </tr>
-    </thead>
-    <tr *ngFor="let pub of search.results">
-        <th scope="row">{{ pub.id }}</th>
-        <td>{{ pub.title }}</td>
-        <td>{{ pub.year }}</td>
-        <td>{{ pub.reference }}</td>
-        <td>{{ pub.authors }}</td>
-    </tr>
-</table>
+    <ngx-datatable
+            #resultsTable
+            class="material"
+            [messages]="{   emptyMessage: 'No publications found',
+                            totalMessage: 'results'}"
+            [rows]="search.results"
+            [columnMode]="'force'"
+            [rowHeight]="'auto'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [limit]="10"
+            [reorderable]="false">
+            <!-- Row Defs -->
+            <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div class="table-detail">
+                        <div class="heading id">#: {{row.id}}</div>
+                        <table>
+                        <tr *ngIf="row.reference" ><td class="heading">Reference: </td><td>{{row.reference}}<td></tr>
+                        <tr *ngIf="row.keywords" ><td class="heading">Keywords: </td><td>{{row.keywords}}</td></tr>
+                        </table>
+                    </div>
+                </ng-template>
+            </ngx-datatable-row-detail>
+            <!-- Column Defs -->
+            <ngx-datatable-column
+                 [width]="50"
+                 [resizeable]="false"
+                 [sortable]="false"
+                 [draggable]="false"
+                 [canAutoResize]="false">
+                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                   <a
+                     href="javascript:void(0)"
+                     [class.datatable-icon-right]="!expanded"
+                     [class.datatable-icon-down]="expanded"
+                     title="Expand/Collapse Row"
+                     (click)="toggleExpandRow(row)">
+                   </a>
+                 </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Title" minWidth="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Year" minWidth="70" maxWidth="70"></ngx-datatable-column>
+            <ngx-datatable-column name="Authors" minWidth="150"></ngx-datatable-column>
+    </ngx-datatable>
 </div>
