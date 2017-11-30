@@ -17,14 +17,15 @@ script: # the build step
     - ng test --single-run
 
 deploy:
-  skip_cleanup: true
   #deploy to production
   - provider: script
     script: bash $TRAVIS_BUILD_DIR/travis-webfaction-deploy.sh production
+    skip_cleanup: true
     on:
      branch: master
   #deploy to staging
   - provider: script
     script: bash $TRAVIS_BUILD_DIR/travis-webfaction-deploy.sh staging
+    skip_cleanup: true
     on:
       branch: staging
