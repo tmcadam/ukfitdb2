@@ -17,7 +17,7 @@ else
 fi
 
 export SSHPASS=$DEPLOY_PASS
-sshpass -p ${DEPLOY_PASS} scp "${PROJECT_DIR}/dist-${1}.zip" ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_HOME}
+sshpass -e ssh -o stricthostkeychecking=no scp "${PROJECT_DIR}/dist-${1}.zip" ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_HOME}
 sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST rm -rf "${DEPLOY_PATH}/*"
 sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST unzip -q "${DEPLOY_HOME}/dist-${1}.zip" -d "${DEPLOY_PATH}/"
 sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST rm "${DEPLOY_HOME}/dist-${1}.zip"
