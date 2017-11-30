@@ -42,3 +42,6 @@ testem.log
 Thumbs.db
 
 spikes/
+
+.travis-environment.variables
+*.zip

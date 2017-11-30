@@ -1,0 +1,29 @@
+language: node_js
+
+node_js:
+   - node # will use latest node
+
+addons:
+  apt:
+    packages:
+    - sshpass
+
+before_script: # commands to run before the build step
+   - npm install -g --silent @angular/cli
+   - npm install --silent
+
+script: # the build step
+    - ng test --single-run
+    - ng build --aot --prod --build-optimizer
+
+deploy:
+  #deploy to production
+  - provider: script
+    script: bash $TRAVIS_BUILD_DIR/travis-webfaction-deploy.sh production
+    on:
+     branch: master
+  #deploy to staging
+  - provider: script
+    script: bash $TRAVIS_BUILD_DIR/travis-webfaction-deploy.sh staging
+    on:
+      branch: staging
