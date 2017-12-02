@@ -28,14 +28,14 @@ describe('IntroductionComponent', () => {
     it('should display introduction if state equals home', () => {
       component.state = 'home';
       fixture.detectChanges();
-      expect(el.querySelector('h3')).not.toBeNull();
-      expect(el.querySelector('h3').textContent).toContain('Welcome to the UKFIT Publications Database');
+      expect(el.querySelector('h5')).not.toBeNull();
+      expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database');
     });
 
     it('should not display introduction if state DOES NOT equal home', () => {
       component.state = 'results';
       fixture.detectChanges();
-      expect(el.querySelector('h3')).toBeNull();
+      expect(el.querySelector('h5')).toBeNull();
     });
 
 });

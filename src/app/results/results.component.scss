@@ -3,20 +3,24 @@
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
 
 .table-detail {
-    padding-left: 60px;
+    padding-left: 80px;
     font-size: 14px;
+    .table {
+        margin-right: 80px;
+    }
     td {
+        text-transform: left;
         vertical-align: top;
-        padding: 5px;
     }
     .heading {
         color: rgba(0, 0, 0, 0.54);
         font-size: 12px;
     }
+    td.heading {
+        width: 60px;
+    }
     .heading.id {
         float: right;
         margin-right: 10px;
-        margin-left: 20px;
-        margin-bottom: 20px;
     }
 }

@@ -1,8 +1,10 @@
-<div class="input-group" id="search">
-    <input type="text" class="form-control" placeholder="Enter a search term" #searchInput (keyup.enter)="search(searchInput.value)">
-    <span class="input-group-btn">
-        <button class="btn btn-secondary"
-                type="button"
-                (click)="search(searchInput.value)">Search</button>
-    </span>
+<div class="row search">
+    <div class="col s1"></div>
+    <div class="input-field col s8">
+        <input type="text" class="form-control" placeholder="Enter a search term" #searchInput (keyup.enter)="search(searchInput.value)">
+    </div>
+    <div class="input-field col s2">
+        <a class="waves-effect waves-light btn" (click)="search(searchInput.value)"><i class="material-icons right">search</i>Search</a>
+    </div>
+    <div class="col s1"></div>
 </div>
