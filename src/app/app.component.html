@@ -1,3 +1,13 @@
 <app-search (stateUpdate)="stateUpdate($event)"></app-search>
 <app-introduction [state]="state"></app-introduction>
 <app-results [state]="state"></app-results>
+
+<div class="fixed-action-btn vertical click-to-toggle">
+  <a class="btn-floating btn-large green ">
+    <i class="large material-icons">menu</i>
+  </a>
+  <ul>
+    <li><a class="btn-floating red" (click)="navHome()"><i class="material-icons">home</i></a></li>
+    <li><a class="btn-floating yellow darken-1" (click)="refreshData()"><i class="material-icons">refresh</i></a></li>
+  </ul>
+</div>

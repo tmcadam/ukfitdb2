@@ -9,6 +9,11 @@ export class PublicationsService {
 
     constructor(private persistenceService: PersistenceService) {}
 
+    reloadPublications(): void {
+        this.persistenceService.set('fitPublications', null, {type: StorageType.SESSION});
+        this.loadPublications();
+    }
+
     loadPublications(): void {
         this.publications = this.persistenceService.get( 'fitPublications', StorageType.SESSION );
         if (!this.publications) {

@@ -78,19 +78,26 @@ describe('Service: SearchService', () => {
     });
 
     it('should return expected publications for a search term from search method', () => {
-        service.search('Chammings');
+        service.searchTerm = 'Chammings';
+        service.search();
         expect(service.results.length).toEqual(1);
-        service.search('"Furse, J.R."');
+        service.searchTerm = '"Furse, J.R."';
+        service.search();
         expect(service.results.length).toEqual(2);
-        service.search('"Furse, J.R." 1975');
+        service.searchTerm = '"Furse, J.R." 1975';
+        service.search();
         expect(service.results.length).toEqual(1);
-        service.search('Coleoptera');
+        service.searchTerm = 'Coleoptera';
+        service.search();
         expect(service.results.length).toEqual(1);
-        service.search('Birds');
+        service.searchTerm = 'Birds';
+        service.search();
         expect(service.results.length).toEqual(2);
-        service.search('"Falkland Islands"');
+        service.searchTerm = '"Falkland Islands"';
+        service.search();
         expect(service.results.length).toEqual(2);
-        service.search('bannanas');
+        service.searchTerm = 'bannanas';
+        service.search();
         expect(service.results.length).toEqual(0);
     });
 

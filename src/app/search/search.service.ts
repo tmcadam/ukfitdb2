@@ -5,7 +5,7 @@ import { Publication } from '../publication';
 @Injectable()
 export class SearchService {
     results: Publication[];
-    searchTerm: string;
+    searchTerm: string = "";
 
     constructor(private pubs: PublicationsService) {}
 
@@ -75,12 +75,10 @@ export class SearchService {
         return overallResult;
     }
 
-    search(_searchTerm: string) {
-        this.searchTerm = _searchTerm;
+    search() {
         let searchWords = this.splitTerm();
         this.results = this.pubs.publications.filter(this.matchPublication.bind(null, searchWords));
-
-        console.log("Search Term:" + _searchTerm + " Found:" + this.results.length);
+        console.log("Search Term:" + this.searchTerm + " Found:" + this.results.length);
     }
 
 }

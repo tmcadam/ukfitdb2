@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
+
 import { SearchService } from './search.service';
 
 @Component({
@@ -10,8 +11,8 @@ export class SearchComponent {
     @Output() stateUpdate = new EventEmitter<string>();
     constructor(private searchService: SearchService) { }
 
-    search (searchTerm: string) {
-        this.searchService.search(searchTerm);
+    search () {
+        this.searchService.search();
         this.stateUpdate.emit('results');
     }
 }
