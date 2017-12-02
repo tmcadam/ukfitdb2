@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { PublicationsService } from './publications.service';
+import { Publication } from './publication';
 
 @Injectable()
 export class SearchService {
-    results: any[];
-    publications: any[];
+    results: Publication[];
     searchTerm: string;
 
-    constructor(private publicationsService: PublicationsService) {
-        this.publications = publicationsService.publications;
-    }
+    constructor(private pubs: PublicationsService) {}
 
     cleanWord(_word: string) {
         return _word.replace(/(^\W+)|(\W+$)/g, "");
@@ -80,7 +78,7 @@ export class SearchService {
     search(_searchTerm: string) {
         this.searchTerm = _searchTerm;
         let searchWords = this.splitTerm();
-        this.results = this.publications.filter(this.matchPublication.bind(null, searchWords));
+        this.results = this.pubs.publications.filter(this.matchPublication.bind(null, searchWords));
 
         console.log("Search Term:" + _searchTerm + " Found:" + this.results.length);
     }

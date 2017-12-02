@@ -1,33 +1,53 @@
 import { PublicationsService } from './publications.service';
 import { PersistenceService, StorageType } from 'angular-persistence';
+import { Publication } from './publication';
 
 export class MockPersistenceService extends PersistenceService {};
 
 export class MockPublicationsService extends PublicationsService {
-    publications;
+    publications: Publication[];
     loadPublications(): void {
         this.publications = [
-            {'title': 'Ornithology Report',
+            {
+            'id': 1,
+            'title': 'Ornithology Report',
             'authors': 'Furse, J.R., Bruce, G.',
             'year': '1971',
-            'keywords':''},
-            {'title': 'Birds of the elephant island group',
+            'keywords':'',
+            'reference': 'Journal of Tom',
+            'format': ''},
+            {
+            'id': 2,
+            'title': 'Birds of the elephant island group',
             'authors': 'Furse, J.R., Bruce, G.',
             'year': '1975',
-            'keywords': ''},
-            {'title':
-            'On the taxonomic value of the intestinal convolutions in birds',
+            'keywords': '',
+            'reference': 'Journal of Tom',
+            'format': ''},
+            {
+            'id': 3,
+            'title':'On the taxonomic value of the intestinal convolutions in birds',
             'authors': 'Gadow, H',
             'year': '1889',
-            'keywords': ''},
-            {'title': 'The origins of the biota of the Falkland Islands and South Georgia.',
+            'keywords': '',
+            'reference': 'Journal of Tom',
+            'format': ''},
+            {
+            'id': 4,
+            'title': 'The origins of the biota of the Falkland Islands and South Georgia.',
             'authors': 'Buckland, P.C., Hammond, P.M.',
             'year': '1997',
-            'keywords': 'Falkland islands, South georgia, Coleoptera, Fossil, Holocene, Refugia, Faunal origins, Charcoal'},
-            {'title': 'Mount Pleasant Airport. Falkland Islands: management and planning.',
+            'keywords': 'Falkland islands, South georgia, Coleoptera, Fossil, Holocene, Refugia, Faunal origins, Charcoal',
+            'reference': 'Journal of Tom',
+            'format': ''},
+            {
+            'id': 5,
+            'title': 'Mount Pleasant Airport. Falkland Islands: management and planning.',
             'authors': 'Chammings, M.B.',
             'year': '1987',
-            'keywords': 'Engineering'}
+            'keywords': 'Engineering',
+            'reference': 'Journal of Tom',
+            'format': ''}
         ];
         console.log("Using mock publications");
     }

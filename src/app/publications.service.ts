@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import * as Papa from "papaparse";
 import { PersistenceService, StorageType } from 'angular-persistence';
+import { Publication } from './publication';
 
 @Injectable()
 export class PublicationsService {
-    publications;
+    publications: Publication[];
 
     constructor(private persistenceService: PersistenceService) {}
 
