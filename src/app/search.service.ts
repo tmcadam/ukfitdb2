@@ -3,37 +3,70 @@ import { PublicationsService } from './publications.service';
 
 @Injectable()
 export class SearchService {
-    results = [];
-    constructor(private publicationsService: PublicationsService) { }
+    results: any[];
+    publications: any[];
+    searchTerm: string;
 
-    splitTerms(_searchTerm) {
-        let words: string[] = [];
+    constructor(private publicationsService: PublicationsService) {
+        this.publications = publicationsService.publications;
+    }
+
+    cleanWord(_word: string) {
+        return _word.replace(/(^\W+)|(\W+$)/g, "");
+    }
+
+    cleanWords(_words: string[]) {
+        _words.map( function( word, i, ar ) {
+            ar[i] = this.cleanWord(word);
+        }, this);
+        return _words;
+    }
+
+    cleanStrippedSearchTerm(_searchTerm: string) {
+        _searchTerm = _searchTerm.replace(/\"/g, '');
+        _searchTerm = _searchTerm.replace(/  /g, ' ');
+        _searchTerm = this.cleanWord(_searchTerm);
+        return _searchTerm;
+    };
+
+    stripPhrasesFromSearchTerm(_words: string[]) {
+        let strippedSearchTerm: string = this.searchTerm;
+        _words.forEach(function (word) {
+             strippedSearchTerm = strippedSearchTerm.replace(word, "");
+        });
+        return this.cleanStrippedSearchTerm(strippedSearchTerm);
+    }
+
+    getPhrases(_words: string[]) {
         let matches, re: RegExp;
-        // Look for phrases
         re = new RegExp("\"([^\"]*)\"", 'g');
-        while ((matches = re.exec(_searchTerm)) != null) {
-            words.push(matches[1]);
+        while ((matches = re.exec(this.searchTerm)) != null) {
+            _words.push(matches[1]);
         }
-        // Clean the phrases from _searchTerm
-        words.forEach(function (word) {
-             _searchTerm = _searchTerm.replace(word, "");
-        });
-        // Look for words
+        return _words;
+    }
+
+    getWords (_words: string[], _strippedSearchTerm: string) {
+        let matches, re: RegExp;
         re = new RegExp('\\w+', 'g');
-        if ((matches = _searchTerm.match(re)) != null) {
-            words = words.concat(matches);
+        if ((matches = _strippedSearchTerm.match(re)) != null) {
+            _words = _words.concat(matches);
         }
-        // Clean all the phrases
-        words.map(function(word, i, ar){
-            ar[i] = word.replace(/(^\W+)|(\W+$)/g, "");
-        });
+        return _words;
+    }
+
+    splitTerm() {
+        let words: string[] = [];
+        words = this.getPhrases(words);
+        words = this.getWords(words, this.stripPhrasesFromSearchTerm(words));
+        words = this.cleanWords(words);
         return words;
     }
 
-    matchPubs(searchTerms, publication) {
+    matchPublication(searchWords: string[], publication: any) {
         let overallResult: boolean = true;
-        searchTerms.forEach(function (term) {
-            let re = new RegExp('\\b' + term, 'i');
+        searchWords.forEach(function (word) {
+            let re = new RegExp('\\b' + word, 'i');
             let wordResult: boolean = false;
             if ( publication.title.search(re) >= 0 ) { wordResult = true };
             if ( publication.keywords.search(re) >= 0 ) { wordResult = true };
@@ -45,8 +78,9 @@ export class SearchService {
     }
 
     search(_searchTerm: string) {
-        let searchTerms = this.splitTerms(_searchTerm);
-        this.results = this.publicationsService.publications.filter(this.matchPubs.bind(null, searchTerms));
+        this.searchTerm = _searchTerm;
+        let searchWords = this.splitTerm();
+        this.results = this.publications.filter(this.matchPublication.bind(null, searchWords));
 
         console.log("Search Term:" + _searchTerm + " Found:" + this.results.length);
     }
