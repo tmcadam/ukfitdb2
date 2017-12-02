@@ -6,7 +6,7 @@ import { ResultsComponent } from './results/results.component';
 import { IntroductionComponent } from './introduction/introduction.component';
 import { SearchComponent } from './search/search.component';
 import { PublicationsService } from './publications.service';
-import { SearchService } from './search.service';
+import { SearchService } from './search/search.service';
 import { PersistenceModule } from 'angular-persistence';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 

@@ -8,7 +8,6 @@ import { PublicationsService } from './publications.service';
 })
 export class AppComponent implements OnInit {
     state: string = 'home';
-    results;
 
     constructor(private publicationsService: PublicationsService) { }
 
@@ -17,6 +16,6 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit () {
-        this.results = this.publicationsService.loadPublications();
+        this.publicationsService.loadPublications();
     }
 }

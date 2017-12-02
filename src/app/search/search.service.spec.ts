@@ -1,5 +1,5 @@
 import { SearchService } from './search.service';
-import { MockPublicationsService, MockPersistenceService } from './publications.service.mock';
+import { MockPublicationsService, MockPersistenceService } from '../publications.service.mock';
 
 describe('Service: SearchService', () => {
     let service: SearchService;

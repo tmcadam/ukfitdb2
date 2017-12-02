@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PublicationsService } from './publications.service';
-import { Publication } from './publication';
+import { PublicationsService } from '../publications.service';
+import { Publication } from '../publication';
 
 @Injectable()
 export class SearchService {
