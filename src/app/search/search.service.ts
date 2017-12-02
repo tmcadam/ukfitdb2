@@ -76,8 +76,12 @@ export class SearchService {
     }
 
     search() {
-        let searchWords = this.splitTerm();
-        this.results = this.pubs.publications.filter(this.matchPublication.bind(null, searchWords));
+        if (this.searchTerm == "") {
+            this.results = [];
+        } else {
+            let searchWords = this.splitTerm();
+            this.results = this.pubs.publications.filter(this.matchPublication.bind(null, searchWords));
+        }
         console.log("Search Term:" + this.searchTerm + " Found:" + this.results.length);
     }
 

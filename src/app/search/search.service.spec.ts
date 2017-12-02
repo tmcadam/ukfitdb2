@@ -101,4 +101,10 @@ describe('Service: SearchService', () => {
         expect(service.results.length).toEqual(0);
     });
 
+    it('should return 0 results if search is left blank', () => {
+        service.searchTerm = '';
+        service.search();
+        expect(service.results.length).toEqual(0);
+    });
+
 });
