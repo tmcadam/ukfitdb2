@@ -6,6 +6,7 @@ import { Publication } from './publication';
 @Injectable()
 export class PublicationsService {
     publications: Publication[];
+    loadingStatus: boolean = false;
 
     constructor(private persistenceService: PersistenceService) {}
 
@@ -15,6 +16,7 @@ export class PublicationsService {
     }
 
     loadPublications(): void {
+        this.loadingStatus = true;
         this.publications = this.persistenceService.get( 'fitPublications', StorageType.SESSION );
         if (!this.publications) {
             Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MirpSf_ARZD9wrv3PzSiAjWU7JwbmK64j91p_kUi4uter83dLSdzsrX8NwO4Tu28-aMs6s05dfd6/pub?gid=845632468&single=true&output=csv", {
@@ -24,10 +26,12 @@ export class PublicationsService {
                       console.log("Downloaded publications.");
                       this.publications = results.data;
                       this.persistenceService.set('fitPublications', this.publications, {type: StorageType.SESSION});
+                      this.loadingStatus = false;
             	}).bind(this)
             });
         } else {
             console.log("Using cached publications");
+            this.loadingStatus = false;
         }
     }
 }

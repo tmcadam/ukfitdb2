@@ -5,6 +5,7 @@ import { Publication } from './publication';
 export class MockPersistenceService extends PersistenceService {};
 
 export class MockPublicationsService extends PublicationsService {
+    loadingStatus: boolean = false;
     publications: Publication[];
     loadPublications(): void {
         this.publications = [
