@@ -1,14 +1,28 @@
+import { TestBed }  from '@angular/core/testing';
+
+import { PersistenceService }  from 'angular-persistence';
+import { ProgressHttp }        from "angular-progress-http";
+
 import { SearchService } from './search.service';
-import { MockPublicationsService, MockPersistenceService } from '../publications.service.mock';
+import { PublicationsService } from '../publications.service';
+
+import { MockPublicationsService, MockPersistenceService, MockProgressHttp } from '../publications.service.mock';
 
 describe('Service: SearchService', () => {
     let service: SearchService;
-    let publicationsService: MockPublicationsService;
+    let pubs: PublicationsService;
 
     beforeEach(() => {
-        publicationsService = new MockPublicationsService(new MockPersistenceService);
-        publicationsService.loadPublications();
-        service = new SearchService(publicationsService);
+        TestBed.configureTestingModule({
+            providers: [
+                SearchService,
+                { provide: PublicationsService, useClass: MockPublicationsService },
+                { provide: PersistenceService, useClass: MockPersistenceService },
+                { provide: ProgressHttp, useClass: MockProgressHttp }
+            ]
+        });
+        service = TestBed.get(SearchService);
+        pubs = TestBed.get(PublicationsService);
     });
 
     it('should remove unwanted characters from a word or phrase using cleanWord', () => {
@@ -78,6 +92,7 @@ describe('Service: SearchService', () => {
     });
 
     it('should return expected publications for a search term from search method', () => {
+        pubs.loadPublications();
         service.searchTerm = 'Chammings';
         service.search();
         expect(service.results.length).toEqual(1);
@@ -102,6 +117,7 @@ describe('Service: SearchService', () => {
     });
 
     it('should return 0 results if search is left blank', () => {
+        pubs.loadPublications();
         service.searchTerm = '';
         service.search();
         expect(service.results.length).toEqual(0);

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search/search.service';
+declare var $ :any;
 
 @Component({
   selector: 'app-root',
@@ -9,15 +10,21 @@ import { SearchService } from './search/search.service';
 })
 export class AppComponent implements OnInit {
     state: string = 'home';
-
-    constructor(private publicationsService: PublicationsService, private searchService: SearchService) { }
+    @ViewChild('#preload') preloadDiv:ElementRef;
+    constructor(private pubs: PublicationsService, private searchService: SearchService) { }
 
     stateUpdate(event: string) {
         this.state = event;
     }
 
     ngOnInit () {
-        this.publicationsService.loadPublications();
+        this.pubs.loadPublications();
+    }
+
+    ngAfterViewInit() {
+        setTimeout( () => {
+            $('#preload').hide();
+        }, 1000)
     }
 
     navHome() {
@@ -26,6 +33,6 @@ export class AppComponent implements OnInit {
     }
 
     refreshData() {
-        this.publicationsService.reloadPublications();
+        this.pubs.reloadPublications();
     }
 }
