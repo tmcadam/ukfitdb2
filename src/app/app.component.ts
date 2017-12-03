@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search/search.service';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,14 +11,14 @@ import { SearchService } from './search/search.service';
 export class AppComponent implements OnInit {
     state: string = 'home';
 
-    constructor(private publicationsService: PublicationsService, private searchService: SearchService) { }
+    constructor(private pubs: PublicationsService, private searchService: SearchService) { }
 
     stateUpdate(event: string) {
         this.state = event;
     }
 
     ngOnInit () {
-        this.publicationsService.loadPublications();
+        this.pubs.loadPublications();
     }
 
     navHome() {
@@ -26,6 +27,6 @@ export class AppComponent implements OnInit {
     }
 
     refreshData() {
-        this.publicationsService.reloadPublications();
+        this.pubs.reloadPublications();
     }
 }
