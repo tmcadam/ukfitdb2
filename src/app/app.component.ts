@@ -11,7 +11,7 @@ declare var $ :any;
 export class AppComponent implements OnInit {
     state: string = 'home';
     @ViewChild('#preload') preloadDiv:ElementRef;
-    constructor(private pubs: PublicationsService, private searchService: SearchService) { }
+    constructor(public pubs: PublicationsService, private searchService: SearchService) { }
 
     stateUpdate(event: string) {
         this.state = event;
