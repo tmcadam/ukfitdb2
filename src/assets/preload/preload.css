@@ -1,0 +1,25 @@
+.preload {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #cfd8dc; /* Fallback color */
+    text-align: center;
+    z-index: 200000000; /* The z-index (defaults to 200000000)*/
+}
+
+.preload > p {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin-top: 150px;
+    font-weight: 700;
+    font-size: 20px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+    color: #616161;
+}
