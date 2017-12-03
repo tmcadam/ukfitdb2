@@ -6,6 +6,7 @@ export class MockPersistenceService extends PersistenceService {};
 
 export class MockPublicationsService extends PublicationsService {
     loadingStatus: boolean = false;
+    loadingProgress: number = 0;
     publications: Publication[];
     loadPublications(): void {
         this.publications = [
