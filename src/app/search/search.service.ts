@@ -44,10 +44,11 @@ export class SearchService {
         return _words;
     }
 
-    getWords (_words: string[], _strippedSearchTerm: string) {
+    getWords (_words: string[]) {
+        let strippedSearchTerm = this.stripPhrasesFromSearchTerm(_words);
         let matches, re: RegExp;
         re = new RegExp('\\w+', 'g');
-        if ((matches = _strippedSearchTerm.match(re)) != null) {
+        if ((matches = strippedSearchTerm.match(re)) != null) {
             _words = _words.concat(matches);
         }
         return _words;
@@ -56,7 +57,7 @@ export class SearchService {
     splitTerm() {
         let words: string[] = [];
         words = this.getPhrases(words);
-        words = this.getWords(words, this.stripPhrasesFromSearchTerm(words));
+        words = this.getWords(words);
         words = this.cleanWords(words);
         return words;
     }
