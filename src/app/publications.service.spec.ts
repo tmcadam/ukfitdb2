@@ -6,7 +6,7 @@ import { ProgressHttp }                     from "angular-progress-http";
 import { PublicationsService } from './publications.service';
 
 import { MockPersistenceService, MockProgressHttp } from './publications.service.mock';
-import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './mock.publications';
+import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './publications.mock';
 
 describe('Publications: PublicationsService', () => {
     let service: PublicationsService;

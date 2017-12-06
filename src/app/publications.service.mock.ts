@@ -1,5 +1,6 @@
 import { Publication }          from './publication';
-import { MOCK_PUBLICATIONS, MOCK_PUBLICATIONS_CSV }    from './mock.publications';
+import { MOCK_PUBLICATIONS,
+    MOCK_PUBLICATIONS_CSV }     from './publications.mock';
 
 import { StorageType }  from 'angular-persistence';
 
