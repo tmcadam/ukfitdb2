@@ -57,16 +57,12 @@ export class PublicationsService {
         }
     }
 
-    // Not fully tested :-( need to work out how to mock/spy/stub ProgressHttp
+    // Tested :-)
     loadFromSheets(): void {
-        this.loadingStatus = true;
+        this.loadingStatus = true
         this.http
-            .withDownloadProgressListener((progress) => {
-                this.updateProgress(progress);
-            })
-                .get( this.sheetUrl, {responseType: ResponseContentType.Text} )
-                    .subscribe((response) => {
-                        this.handleDownload(response);
-                    });
+            .withDownloadProgressListener((progress) => { this.updateProgress(progress) })
+                .get( this.sheetUrl, { responseType: ResponseContentType.Text })
+                    .subscribe((response) => { this.handleDownload(response) })
     }
 }

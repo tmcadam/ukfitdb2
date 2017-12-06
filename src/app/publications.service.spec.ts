@@ -8,36 +8,30 @@ import { PublicationsService } from './publications.service';
 import { MockPersistenceService, MockProgressHttp } from './publications.service.mock';
 import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './mock.publications';
 
-fdescribe('Publications: PublicationsService', () => {
+describe('Publications: PublicationsService', () => {
     let service: PublicationsService;
     let persistenceService: MockPersistenceService;
     let progressService: MockProgressHttp;
     let log;
-    let loadFromSheets;
-    let parseCSV;
-    let set;
-    let withDownloadProgressListener;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
                 PublicationsService,
-                { provide: PersistenceService, useClass: MockPersistenceService },
-                { provide: ProgressHttp, useClass: MockProgressHttp }
+                { provide: ProgressHttp, useClass: MockProgressHttp },
+                { provide: PersistenceService, useClass: MockPersistenceService }
             ]
         });
         service = TestBed.get(PublicationsService);
         persistenceService = TestBed.get(PersistenceService);
         progressService = TestBed.get(ProgressHttp);
         log = spyOn(console, 'log');
-        loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough();
-        parseCSV = spyOn(service, 'parseCSV').and.callThrough();
-        set = spyOn(persistenceService, 'set').and.callThrough();
-        withDownloadProgressListener = spyOn(progressService, 'withDownloadProgressListener').and.callThrough();
     });
 
     describe('loadFromSheets', () => {
+        let withDownloadProgressListener;
         beforeEach(() => {
+            withDownloadProgressListener = spyOn(progressService, 'withDownloadProgressListener').and.callThrough();
             service.loadFromSheets();
         });
         it('should set loadingStatus to true', () => {
@@ -46,18 +40,34 @@ fdescribe('Publications: PublicationsService', () => {
         it('should call withDownloadProgressListener', () => {
             expect(withDownloadProgressListener).toHaveBeenCalled();
         });
+        it('should set the publicatons objects if successful', fakeAsync(() => {
+            progressService.response = {
+                'text': () => { return MOCK_PUBLICATIONS_CSV}
+            }
+            progressService.fileSize = service.loadingTotal
+            let updateProgress = spyOn(service, 'updateProgress').and.callThrough()
+            service.loadFromSheets()
+            tick(1510)
+            expect(updateProgress).toHaveBeenCalledTimes(5)
+            tick(1500)
+            expect(updateProgress).toHaveBeenCalledTimes(10)
+            expect(service.publications.length).toBe(5)
+            tick(500) // to allow the delayed UI updates
+        }))
     });
 
-    fdescribe('handleDownload', () => {
+    describe('handleDownload', () => {
         let response: any;
         beforeEach(() => {
             response = {'text': () => { return "some,response,text";} }
         });
         it('should call parseCSV with the data contained in response', () => {
+            let parseCSV = spyOn(service, 'parseCSV').and.callThrough();
             service.handleDownload(response);
             expect(parseCSV).toHaveBeenCalledWith("some,response,text");
         });
         it('should call set in the persistenceService to cache to the publications data', () => {
+            let set = spyOn(persistenceService, 'set').and.callThrough();
             service.handleDownload(response);
             expect(set).toHaveBeenCalledWith('fitPublications', service.publications, {type: StorageType.SESSION});
         });
@@ -77,7 +87,9 @@ fdescribe('Publications: PublicationsService', () => {
     });
 
     describe('reloadPublications', () => {
+        let loadFromSheets;
         beforeEach(() => {
+            loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough();
             service.reloadPublications();
         });
         it('should call loadFromSheets', () => {
@@ -98,6 +110,7 @@ fdescribe('Publications: PublicationsService', () => {
                 expect(service.publications).toEqual(MOCK_PUBLICATIONS);
             });
             it('should not call loadFromSheets', () => {
+                let loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough();
                 expect(loadFromSheets).not.toHaveBeenCalled();
             });
             it('should output to the console', () => {
@@ -105,7 +118,9 @@ fdescribe('Publications: PublicationsService', () => {
             });
         });
         describe('when publications data does not exist in the browser cache', () => {
+            let loadFromSheets;
             beforeEach(() => {
+                loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough();
                 service.loadPublications();
             });
             it('should call loadSheets', () => {
