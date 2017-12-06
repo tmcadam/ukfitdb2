@@ -150,15 +150,15 @@ describe('Publications: PublicationsService', () => {
             progressEvent = {'loaded': service.loadingTotal / 2 };
             service.updateProgress(progressEvent);
             expect(service.loadingProgress).toEqual('50%');
-            progressEvent = {'loaded': service.loadingTotal / 3 };
-            service.updateProgress(progressEvent);
-            expect(service.loadingProgress).toContain('33.3');
-            expect(service.loadingProgress).toContain('%');
+            progressEvent = {'loaded': service.loadingTotal / 3 }
+            service.updateProgress(progressEvent)
+            expect(service.loadingProgress).toContain('33.3')
+            expect(service.loadingProgress).toContain('%')
         })
         it('output loadingProgress property to the console ', ()=> {
-            progressEvent = {'loaded': service.loadingTotal / 4 };
-            service.updateProgress(progressEvent);
-            expect(log).toHaveBeenCalledWith(`Downloading 25%`);
-        });
-    });
-});
+            progressEvent = {'loaded': service.loadingTotal / 4 }
+            service.updateProgress(progressEvent)
+            expect(log).toHaveBeenCalledWith(`Downloading 25%`)
+        })
+    })
+})

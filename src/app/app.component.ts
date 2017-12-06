@@ -3,7 +3,7 @@ import { Component,AfterViewInit,
 
 import { PublicationsService }  from './publications.service'
 import { SearchService }        from './search/search.service'
-import { StateService }         from './state.service'
+import { StateService , Display }         from './state.service'
 
 declare var $ :any
 
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     navHome() {
         this.searchService.searchTerm = "";
-        this.stateService.state = 'home';
+        this.stateService.state = Display.HOME;
     }
 
     refreshData() {

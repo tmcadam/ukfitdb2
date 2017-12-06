@@ -3,7 +3,7 @@ import { async, ComponentFixture,
     TestBed }                       from '@angular/core/testing'
 import { By }                       from '@angular/platform-browser'
 
-import { StateService } from '../state.service'
+import { StateService, Display } from '../state.service'
 
 import { IntroductionComponent } from './introduction.component'
 
@@ -32,14 +32,14 @@ describe('IntroductionComponent', () => {
     })
 
     it('should display introduction if app->state equals home', () => {
-      stateService.state = 'home'
+      stateService.state = Display.HOME
       fixture.detectChanges()
       expect(el.querySelector('h5')).not.toBeNull()
       expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database')
     });
 
     it('should not display introduction if app->state DOES NOT equal home', () => {
-      stateService.state = 'results'
+      stateService.state = Display.RESULTS
       fixture.detectChanges()
       expect(el.querySelector('h5')).toBeNull()
     });

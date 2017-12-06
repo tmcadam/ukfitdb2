@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter }   from '@angular/core'
 
 import { SearchService }        from './search.service'
 import { PublicationsService }  from '../publications.service'
-import { StateService }         from '../state.service'
+import { StateService, Display }         from '../state.service'
 
 @Component({
   selector: 'app-search',
@@ -17,6 +17,6 @@ export class SearchComponent {
 
     search () {
         this.searchService.search()
-        this.stateService.state = 'results'
+        this.stateService.state = Display.RESULTS
     }
 }

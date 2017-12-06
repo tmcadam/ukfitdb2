@@ -9,7 +9,7 @@ import { PublicationsService }      from './publications.service';
 import { MockPublicationsService }  from './publications.service.mock';
 import { SearchService }            from './search/search.service';
 import { MockSearchService }        from './search/search.service.mock';
-import { StateService }             from './state.service'
+import { StateService, Display }             from './state.service'
 
 describe('AppComponent', () => {
     let component:      AppComponent;
@@ -117,10 +117,10 @@ describe('AppComponent', () => {
           })
           describe('navHome', () => {
               it('it should set app->state to "home" and searchService->search to ""', () => {
-                  stateService.state = 'results';
+                  stateService.state = Display.RESULTS;
                   searchService.searchTerm = 'seaweed';
                   component.navHome();
-                  expect(stateService.state).toBe('home');
+                  expect(stateService.state).toBe(Display.HOME);
                   expect(searchService.searchTerm).toBe('');
               });
           })

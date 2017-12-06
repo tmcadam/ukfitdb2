@@ -9,7 +9,7 @@ import { ProgressHttp }         from "angular-progress-http"
 import { SearchComponent }      from './search.component'
 import { PublicationsService }  from '../publications.service'
 import { SearchService }        from './search.service'
-import { StateService }         from '../state.service'
+import { StateService, Display }         from '../state.service'
 
 import { MockPublicationsService,
     MockPersistenceService, MockProgressHttp }  from '../publications.service.mock'
@@ -54,9 +54,9 @@ describe('SearchComponent', () => {
             expect(search).toHaveBeenCalled()
         })
         it('should change the application state to "results"', () => {
-            stateService.state = 'home'
+            stateService.state = Display.HOME
             component.search()
-            expect(stateService.state).toBe('results')
+            expect(stateService.state).toBe(Display.RESULTS)
         })
     })
 
