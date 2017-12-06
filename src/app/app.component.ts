@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component,AfterViewInit, ViewChild, OnInit, ElementRef } from '@angular/core';
 import { PublicationsService } from './publications.service';
 import { SearchService } from './search/search.service';
 declare var $ :any;
@@ -8,7 +8,8 @@ declare var $ :any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
+
     state: string = 'home';
     @ViewChild('#preload') preloadDiv:ElementRef;
     constructor(public pubs: PublicationsService, private searchService: SearchService) { }
@@ -17,10 +18,12 @@ export class AppComponent implements OnInit {
         this.state = event;
     }
 
+    // Tested
     ngOnInit () {
         this.pubs.loadPublications();
     }
 
+    // Tested
     ngAfterViewInit() {
         setTimeout( () => {
             $('#preload').hide();

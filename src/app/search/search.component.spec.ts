@@ -51,4 +51,5 @@ describe('SearchComponent', () => {
         de = fixture.debugElement.query(By.css('#searchButton.disabled'));
         expect(de).toBeNull();
     });
+
 });

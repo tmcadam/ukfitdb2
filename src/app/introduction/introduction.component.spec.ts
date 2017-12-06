@@ -25,14 +25,14 @@ describe('IntroductionComponent', () => {
     expect(component).toBeTruthy();
     });
 
-    it('should display introduction if state equals home', () => {
+    it('should display introduction if app->state equals home', () => {
       component.state = 'home';
       fixture.detectChanges();
       expect(el.querySelector('h5')).not.toBeNull();
       expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database');
     });
 
-    it('should not display introduction if state DOES NOT equal home', () => {
+    it('should not display introduction if app->state DOES NOT equal home', () => {
       component.state = 'results';
       fixture.detectChanges();
       expect(el.querySelector('h5')).toBeNull();

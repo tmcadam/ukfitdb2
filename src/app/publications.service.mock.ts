@@ -44,4 +44,5 @@ export class MockPublicationsService {
         console.log("Loaded mock publications.");
         this.publications = MOCK_PUBLICATIONS;
     }
+    reloadPublications(): void{};
 };

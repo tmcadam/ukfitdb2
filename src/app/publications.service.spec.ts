@@ -61,15 +61,14 @@ describe('Publications: PublicationsService', () => {
         it('should call set in the persistenceService to cache to the publications data', () => {
             expect(set).toHaveBeenCalledWith('fitPublications', service.publications, {type: StorageType.SESSION});
         });
-        it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', (done) => {
+        it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', async(() => {
             expect(service.loadingProgress).toEqual('25%');
             expect(service.loadingStatus).toEqual(true);
             setTimeout( () => {
                 expect(service.loadingProgress).toEqual('0%');
                 expect(service.loadingStatus).toEqual(false);
-                done();
             }, 510);
-        }, 550);
+        }));
     });
 
     describe('reloadPublications', () => {
