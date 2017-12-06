@@ -1,4 +1,4 @@
-import { TestBed, async }  from '@angular/core/testing';
+import { TestBed, fakeAsync, tick }  from '@angular/core/testing';
 
 import { PersistenceService, StorageType }  from 'angular-persistence';
 import { ProgressHttp }                     from "angular-progress-http";
@@ -8,7 +8,7 @@ import { PublicationsService } from './publications.service';
 import { MockPersistenceService, MockProgressHttp } from './publications.service.mock';
 import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './mock.publications';
 
-describe('Publications: PublicationsService', () => {
+fdescribe('Publications: PublicationsService', () => {
     let service: PublicationsService;
     let persistenceService: MockPersistenceService;
     let progressService: MockProgressHttp;
@@ -48,26 +48,31 @@ describe('Publications: PublicationsService', () => {
         });
     });
 
-    describe('handleDownload', () => {
+    fdescribe('handleDownload', () => {
+        let response: any;
         beforeEach(() => {
-            let response = {'text': () => { return "some,response,text";} }
-            service.loadingProgress = '25%';
-            service.loadingStatus = true;
-            service.handleDownload(response);
+            response = {'text': () => { return "some,response,text";} }
         });
         it('should call parseCSV with the data contained in response', () => {
+            service.handleDownload(response);
             expect(parseCSV).toHaveBeenCalledWith("some,response,text");
         });
         it('should call set in the persistenceService to cache to the publications data', () => {
+            service.handleDownload(response);
             expect(set).toHaveBeenCalledWith('fitPublications', service.publications, {type: StorageType.SESSION});
         });
-        it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', async(() => {
+        it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', <any>fakeAsync(() => {
+            service.loadingProgress = '25%';
+            service.loadingStatus = true;
+            service.handleDownload(response);
             expect(service.loadingProgress).toEqual('25%');
             expect(service.loadingStatus).toEqual(true);
-            setTimeout( () => {
-                expect(service.loadingProgress).toEqual('0%');
-                expect(service.loadingStatus).toEqual(false);
-            }, 510);
+            tick(250);
+            expect(service.loadingProgress).toEqual('25%');
+            expect(service.loadingStatus).toEqual(true);
+            tick(510);
+            expect(service.loadingProgress).toEqual('0%');
+            expect(service.loadingStatus).toEqual(false);
         }));
     });
 
