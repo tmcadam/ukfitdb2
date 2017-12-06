@@ -51,7 +51,7 @@ describe('Publications: PublicationsService', () => {
             expect(updateProgress).toHaveBeenCalledTimes(5)
             tick(1500)
             expect(updateProgress).toHaveBeenCalledTimes(10)
-            expect(service.publications.length).toBe(5)
+            expect(service.publications).toEqual(MOCK_PUBLICATIONS)
             tick(500) // to allow the delayed UI updates
         }))
     });
@@ -137,10 +137,7 @@ describe('Publications: PublicationsService', () => {
             service.parseCSV(MOCK_PUBLICATIONS_CSV);
         });
         it('should parse a CSV string to a JSON object and set this to the publicatons property', () => {
-            expect(service.publications.length).toEqual(5);
-            expect(service.publications[0].id).toEqual('2725');
-            expect(service.publications[2].year).toEqual('1889');
-            expect(service.publications[4].title).toEqual('Mount Pleasant Airport. Falkland Islands: management and planning.');
+            expect(service.publications).toEqual(MOCK_PUBLICATIONS);
         });
         it('should output to the console', () => {
             expect(log).toHaveBeenCalledWith("Parsed publications.");
