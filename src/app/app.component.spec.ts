@@ -19,7 +19,6 @@ describe('AppComponent', () => {
     let searchService: SearchService;
 
     beforeEach(async(() => {
-
           TestBed.configureTestingModule({
               imports: [ AppModule ],
               providers: [
@@ -27,11 +26,13 @@ describe('AppComponent', () => {
                   { provide: PublicationsService, useClass: MockPublicationsService }
               ]
           }).compileComponents();
+     }));
+    beforeEach(() => {
           fixture = TestBed.createComponent(AppComponent);
-          component = fixture.componentInstance;
           publicationsService = TestBed.get(PublicationsService);
           searchService = TestBed.get(SearchService);
-      }));
+          component = fixture.componentInstance;
+      });
 
       it('should create the app', async(() => {
           const fixture = TestBed.createComponent(AppComponent);
@@ -48,28 +49,25 @@ describe('AppComponent', () => {
           })
       }));
 
-      xit('it should call ngAfterViewChecked after loading', async(() => {
-          const fixture = TestBed.createComponent(AppComponent);
-          let ngAfterViewInit = spyOn(component, 'ngAfterViewInit');
-          fixture.detectChanges();
-          setTimeout(() =>{
-              expect(ngAfterViewInit).toHaveBeenCalled();
-          }, 1000);
+      it('it should call ngAfterViewChecked after loading', async(() => {
+          let ngAfterViewInit = spyOn(component, 'ngAfterViewInit')
+          fixture.detectChanges()
+          expect(ngAfterViewInit).toHaveBeenCalled()
       }));
 
-      xit('it should allow the preload to stay for 1000ms', async(() => {
-          const fixture = TestBed.createComponent(AppComponent);
-          let ngAfterViewInit = spyOn(component, 'ngAfterViewInit');
-          fixture.whenStable().then(() => {
-              expect($('#preload').is( ":hidden" )).toBeFalsy();
-          })
+      it('it should not call hidePreload for 1000ms after creation', fakeAsync(() => {
+          let hidePreload = spyOn(component, 'hidePreload')
+          fixture.detectChanges()
+          tick(500)
+          expect(hidePreload).not.toHaveBeenCalled()
+          tick(501)
       }));
 
-      xit('it should hide the preload div after a 1000ms delay', fakeAsync(() => {
-          const fixture = TestBed.createComponent(AppComponent);
-          tick(1100);
-          fixture.detectChanges();
-          expect($('#preload').is( ":hidden" )).toBeTruthy();
+      it('it should call hidePreload after 1000ms delay', fakeAsync(() => {
+          let hidePreload = spyOn(component, 'hidePreload')
+          fixture.detectChanges()
+          tick(1001)
+          expect(hidePreload).toHaveBeenCalled()
       }));
 
       describe('navbar', () => {

@@ -22,5 +22,5 @@ var opts = {
   shadow: null, // Box-shadow for the lines
   position: 'absolute' // Element positioning
 };
-var target = document.getElementById('preload');
+var target = <HTMLScriptElement>document.querySelector('div.preload');
 var spinner = new Spinner(opts).spin(target);

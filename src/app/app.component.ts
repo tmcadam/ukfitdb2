@@ -23,10 +23,15 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.pubs.loadPublications();
     }
 
+    // Can't test as the preload div doesn't exist in Angular
+    hidePreload() {
+        $('div.preload').hide()
+    }
+
     // Tested
     ngAfterViewInit() {
         setTimeout( () => {
-            $('#preload').hide();
+            this.hidePreload()
         }, 1000)
     }
 

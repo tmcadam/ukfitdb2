@@ -93,7 +93,7 @@ var opts = {
     shadow: null,
     position: 'absolute' // Element positioning
 };
-var target = document.getElementById('preload');
+var target = document.querySelector('div.preload');
 var spinner = new spin_js_1.Spinner(opts).spin(target);
 
 
