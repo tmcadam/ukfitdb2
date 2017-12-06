@@ -1,4 +1,4 @@
-import { Component, Input }     from '@angular/core';
+import { Component, Input }     from '@angular/core'
 
 import { StateService, Display }         from '../state.service'
 
@@ -8,6 +8,6 @@ import { StateService, Display }         from '../state.service'
   styleUrls: ['./introduction.component.css']
 })
 export class IntroductionComponent {
-    public display = Display;
+    public display = Display
     constructor(public stateService: StateService) {}
 }

@@ -33,7 +33,7 @@ describe('SearchComponent', () => {
                             { provide: PersistenceService, useClass: MockPersistenceService },
                             { provide: ProgressHttp, useClass: MockProgressHttp }]
         }).compileComponents()
-    }));
+    }))
 
     beforeEach(() => {
         fixture = TestBed.createComponent(SearchComponent)
@@ -41,11 +41,11 @@ describe('SearchComponent', () => {
         el = fixture.debugElement.nativeElement
         searchService = TestBed.get(SearchService)
         stateService = TestBed.get(StateService)
-    });
+    })
 
     it('should create', () => {
         expect(component).toBeTruthy()
-    });
+    })
 
     describe('search method', () => {
         it('should call search function on the search service', ()=> {
@@ -108,4 +108,4 @@ describe('SearchComponent', () => {
         })
     })
 
-});
+})

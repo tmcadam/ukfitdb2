@@ -17,15 +17,15 @@ describe('IntroductionComponent', () => {
         TestBed.configureTestingModule({
             declarations: [ IntroductionComponent ],
             providers: [StateService]
-        }).compileComponents();
-    }));
+        }).compileComponents()
+    }))
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(IntroductionComponent);
-        component = fixture.componentInstance;
-        el = fixture.debugElement.nativeElement;
+        fixture = TestBed.createComponent(IntroductionComponent)
+        component = fixture.componentInstance
+        el = fixture.debugElement.nativeElement
         stateService = TestBed.get(StateService)
-    });
+    })
 
     it('should create', () => {
         expect(component).toBeTruthy()
@@ -36,12 +36,12 @@ describe('IntroductionComponent', () => {
       fixture.detectChanges()
       expect(el.querySelector('h5')).not.toBeNull()
       expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database')
-    });
+    })
 
     it('should not display introduction if app->state DOES NOT equal home', () => {
       stateService.state = Display.RESULTS
       fixture.detectChanges()
       expect(el.querySelector('h5')).toBeNull()
-    });
+    })
 
-});
+})

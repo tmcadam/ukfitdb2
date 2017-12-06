@@ -11,12 +11,12 @@ import { StateService, Display }            from '../state.service'
   encapsulation: ViewEncapsulation.None
 })
 export class ResultsComponent  {
-    @ViewChild('resultsTable') table: any;
+    @ViewChild('resultsTable') table: any
     public display = Display
     constructor(private search: SearchService,
                 public stateService: StateService) { }
 
-    currentRow;
+    currentRow
 
     toggleExpandRow(row) {
         if (this.currentRow && this.currentRow != row) {
@@ -26,7 +26,7 @@ export class ResultsComponent  {
     }
 
     onDetailToggle(event) {
-        this.currentRow = null;
+        this.currentRow = null
         if(!document.querySelector(".datatable-row-detail")) {
             this.currentRow = event.value
         }

@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 ) { }
 
     ngOnInit () {
-        this.pubs.loadPublications();
+        this.pubs.loadPublications()
     }
 
     // Can't test as the preload div doesn't exist in Angular
@@ -35,11 +35,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     navHome() {
-        this.searchService.searchTerm = "";
-        this.stateService.state = Display.HOME;
+        this.searchService.searchTerm = ""
+        this.stateService.state = Display.HOME
     }
 
     refreshData() {
-        this.pubs.reloadPublications();
+        this.pubs.reloadPublications()
     }
 }

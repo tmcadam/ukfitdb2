@@ -1,21 +1,22 @@
-import { Publication }          from './publication';
-import { MOCK_PUBLICATIONS,
-    MOCK_PUBLICATIONS_CSV }     from './publications.mock';
+import { StorageType }          from 'angular-persistence'
 
-import { StorageType }  from 'angular-persistence';
+import { Publication }          from './publication'
+import { MOCK_PUBLICATIONS,
+    MOCK_PUBLICATIONS_CSV }     from './publications.mock'
+
 
 export class MockPersistenceService {
-    data: any = {};
+    data: any = {}
     set( name: string, _data: any, type: any ) {
-        this.data[name] = _data;
+        this.data[name] = _data
     }
     get( name: string, type: StorageType ){
         if(this.data.hasOwnProperty(name)) {
-            return this.data[name];
+            return this.data[name]
         }
-        return null;
+        return null
     }
-};
+}
 
 export class MockProgressHttp {
     public response: any
@@ -24,10 +25,10 @@ export class MockProgressHttp {
     public fileSize: number = 1000000 // 1 mb
 
     private observable = class MockObservable {
-        constructor ( public superThis: MockProgressHttp ) {};
+        constructor ( public superThis: MockProgressHttp ) {}
         subscribe(_responseCallback:Function) {
             setTimeout(()=>{
-                _responseCallback(this.superThis.response);
+                _responseCallback(this.superThis.response)
             }, this.superThis.responseTime)
         }
     }
@@ -48,12 +49,12 @@ export class MockProgressHttp {
 }
 
 export class MockPublicationsService {
-    loadingStatus: boolean = false;
-    loadingProgress: string = '0%';
-    publications: Publication[];
+    loadingStatus: boolean = false
+    loadingProgress: string = '0%'
+    publications: Publication[]
     loadPublications(): void {
-        console.log("Loaded mock publications.");
-        this.publications = MOCK_PUBLICATIONS;
+        console.log("Loaded mock publications.")
+        this.publications = MOCK_PUBLICATIONS
     }
-    reloadPublications(): void{};
-};
+    reloadPublications(): void{}
+}
