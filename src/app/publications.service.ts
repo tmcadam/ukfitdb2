@@ -18,7 +18,6 @@ export class PublicationsService {
 
     constructor(private persistenceService: PersistenceService, public http: ProgressHttp) {}
 
-    // Tested
     handleDownload(response): void {
         this.parseCSV(response.text());
         this.persistenceService.set('fitPublications', this.publications, {type: StorageType.SESSION});
@@ -28,25 +27,22 @@ export class PublicationsService {
         }, 500)
     }
 
-    // Tested
     reloadPublications(): void {
         console.log("Reloading data from sheets.");
         this.loadFromSheets();
     }
 
-    // Tested
     parseCSV(csvData: string): void {
         let results = Papa.parse(csvData, { header: true });
         this.publications = results.data;
         console.log("Parsed publications.");
     }
-    // Tested
+
     updateProgress(progress): void {
         this.loadingProgress = `${(progress.loaded/this.loadingTotal) * 100}%`;
         console.log(`Downloading ${this.loadingProgress}`);
      }
 
-    // Tested
     loadPublications(): void {
         this.publications = this.persistenceService.get( 'fitPublications', StorageType.SESSION );
         if (!this.publications) {
@@ -57,7 +53,6 @@ export class PublicationsService {
         }
     }
 
-    // Tested :-)
     loadFromSheets(): void {
         this.loadingStatus = true
         this.http

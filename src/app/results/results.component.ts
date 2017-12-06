@@ -1,5 +1,8 @@
-import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
-import { SearchService } from '../search/search.service';
+import { Component, Input, ViewEncapsulation,
+    ViewChild }                 from '@angular/core'
+
+import { SearchService }        from '../search/search.service'
+import { StateService }         from '../state.service'
 
 @Component({
   selector: 'app-results',
@@ -10,9 +13,9 @@ import { SearchService } from '../search/search.service';
 export class ResultsComponent  {
     @ViewChild('resultsTable') table: any;
 
-    @Input() state: string;
-    constructor(private search: SearchService) { }
-
+    constructor(private search: SearchService,
+                public stateService: StateService) { }
+    
     currentRow;
 
     toggleExpandRow(row) {

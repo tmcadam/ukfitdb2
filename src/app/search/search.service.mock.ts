@@ -1,3 +1,4 @@
 export class MockSearchService {
-    searchTerm: string = '';
+    searchTerm: string = ''
+    search() :void {}
 }

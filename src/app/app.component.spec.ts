@@ -9,11 +9,14 @@ import { PublicationsService }      from './publications.service';
 import { MockPublicationsService }  from './publications.service.mock';
 import { SearchService }            from './search/search.service';
 import { MockSearchService }        from './search/search.service.mock';
+import { StateService }             from './state.service'
 
 describe('AppComponent', () => {
-    let component:    AppComponent;
-    let fixture:      ComponentFixture<AppComponent>;
-    let el:           HTMLElement;
+    let component:      AppComponent;
+    let fixture:        ComponentFixture<AppComponent>;
+    let el:             HTMLElement;
+    let log:            any
+    let stateService:   StateService
 
     let publicationsService: PublicationsService;
     let searchService: SearchService;
@@ -22,6 +25,7 @@ describe('AppComponent', () => {
           TestBed.configureTestingModule({
               imports: [ AppModule ],
               providers: [
+                  StateService,
                   { provide: SearchService, useClass: MockSearchService },
                   { provide: PublicationsService, useClass: MockPublicationsService }
               ]
@@ -32,6 +36,8 @@ describe('AppComponent', () => {
           publicationsService = TestBed.get(PublicationsService);
           searchService = TestBed.get(SearchService);
           component = fixture.componentInstance;
+          stateService = TestBed.get(StateService)
+          log = spyOn(console, 'log')
       });
 
       it('should create the app', async(() => {
@@ -111,10 +117,10 @@ describe('AppComponent', () => {
           })
           describe('navHome', () => {
               it('it should set app->state to "home" and searchService->search to ""', () => {
-                  component.state = 'results';
+                  stateService.state = 'results';
                   searchService.searchTerm = 'seaweed';
                   component.navHome();
-                  expect(component.state).toBe('home');
+                  expect(stateService.state).toBe('home');
                   expect(searchService.searchTerm).toBe('');
               });
           })

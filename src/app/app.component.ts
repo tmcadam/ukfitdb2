@@ -1,7 +1,11 @@
-import { Component,AfterViewInit, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { PublicationsService } from './publications.service';
-import { SearchService } from './search/search.service';
-declare var $ :any;
+import { Component,AfterViewInit,
+            ViewChild, OnInit, ElementRef } from '@angular/core'
+
+import { PublicationsService }  from './publications.service'
+import { SearchService }        from './search/search.service'
+import { StateService }         from './state.service'
+
+declare var $ :any
 
 @Component({
   selector: 'app-root',
@@ -10,15 +14,11 @@ declare var $ :any;
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-    state: string = 'home';
-    @ViewChild('#preload') preloadDiv:ElementRef;
-    constructor(public pubs: PublicationsService, private searchService: SearchService) { }
+    constructor(    public pubs: PublicationsService,
+                    private searchService: SearchService,
+                    public stateService: StateService
+                ) { }
 
-    stateUpdate(event: string) {
-        this.state = event;
-    }
-
-    // Tested
     ngOnInit () {
         this.pubs.loadPublications();
     }
@@ -28,7 +28,6 @@ export class AppComponent implements OnInit, AfterViewInit {
         $('div.preload').hide()
     }
 
-    // Tested
     ngAfterViewInit() {
         setTimeout( () => {
             this.hidePreload()
@@ -37,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     navHome() {
         this.searchService.searchTerm = "";
-        this.state = 'home';
+        this.stateService.state = 'home';
     }
 
     refreshData() {
