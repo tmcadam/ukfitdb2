@@ -4,7 +4,7 @@ import { Publication } from '../publication'
 
 @Injectable()
 export class SearchService {
-    results: Publication[]
+    results: Publication[] = []
     searchTerm: string = ""
 
     constructor(private pubs: PublicationsService) {}

@@ -3,9 +3,8 @@ import { async, ComponentFixture,
     TestBed }                       from '@angular/core/testing'
 import { By }                       from '@angular/platform-browser'
 
-import { StateService, Display } from '../state.service'
-
-import { IntroductionComponent } from './introduction.component'
+import { StateService, Display }    from '../state.service'
+import { IntroductionComponent }    from './introduction.component'
 
 describe('IntroductionComponent', () => {
     let component:    IntroductionComponent
@@ -30,18 +29,19 @@ describe('IntroductionComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy()
     })
+    describe('state', () => {
+        it('should display indtroduction view if stateService.state is HOME', () => {
+          stateService.state = Display.HOME
+          fixture.detectChanges()
+          expect(el.querySelector('h5')).not.toBeNull()
+          expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database')
+        })
 
-    it('should display introduction if app->state equals home', () => {
-      stateService.state = Display.HOME
-      fixture.detectChanges()
-      expect(el.querySelector('h5')).not.toBeNull()
-      expect(el.querySelector('h5').textContent).toContain('Welcome to the FIT Publications Database')
-    })
-
-    it('should not display introduction if app->state DOES NOT equal home', () => {
-      stateService.state = Display.RESULTS
-      fixture.detectChanges()
-      expect(el.querySelector('h5')).toBeNull()
+        it('should NOT display introduction view if stateService.state is not HOME', () => {
+          stateService.state = Display.RESULTS
+          fixture.detectChanges()
+          expect(el.querySelector('h5')).toBeNull()
+        })
     })
 
 })

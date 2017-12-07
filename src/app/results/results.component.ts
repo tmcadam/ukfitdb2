@@ -11,12 +11,12 @@ import { StateService, Display }            from '../state.service'
   encapsulation: ViewEncapsulation.None
 })
 export class ResultsComponent  {
-    @ViewChild('resultsTable') table: any
-    public display = Display
+    @ViewChild('resultsTable') table    :any
+    currentRow                          :HTMLElement
+    display                             = Display
+
     constructor(private search: SearchService,
                 public stateService: StateService) { }
-
-    currentRow
 
     toggleExpandRow(row) {
         if (this.currentRow && this.currentRow != row) {

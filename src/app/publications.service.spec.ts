@@ -54,6 +54,12 @@ describe('Publications: PublicationsService', () => {
             expect(service.publications).toEqual(MOCK_PUBLICATIONS)
             tick(500) // to allow the delayed UI updates
         }))
+        it('it should timeout after ###ms if no resonse not complete', () => {
+
+        })
+        it('it should ', () => {
+
+        })
     })
 
     describe('handleDownload', () => {
