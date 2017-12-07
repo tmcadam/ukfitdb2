@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick }  from '@angular/core/testing'
+import { TestBed, fakeAsync, async, tick }  from '@angular/core/testing'
 
 import { PersistenceService, StorageType }  from 'angular-persistence'
 import { ProgressHttp }                     from "angular-progress-http"
@@ -9,9 +9,9 @@ import { MockPersistenceService, MockProgressHttp } from './publications.service
 import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './publications.mock'
 
 describe('Publications: PublicationsService', () => {
-    let service: PublicationsService
-    let persistenceService: MockPersistenceService
-    let progressService: MockProgressHttp
+    let service             :PublicationsService
+    let persistenceService  :MockPersistenceService
+    let progressService     :MockProgressHttp
     let log
 
     beforeEach(() => {
@@ -29,20 +29,58 @@ describe('Publications: PublicationsService', () => {
     })
 
     describe('loadFromSheets', () => {
-        let withDownloadProgressListener
-        beforeEach(() => {
-            withDownloadProgressListener = spyOn(progressService, 'withDownloadProgressListener').and.callThrough()
-            service.loadFromSheets()
-        })
+
         it('should set loadingStatus to true', () => {
+            service.loadFromSheets()
             expect(service.loadingStatus).toBeTruthy()
         })
         it('should call withDownloadProgressListener', () => {
+            let withDownloadProgressListener = spyOn(progressService, 'withDownloadProgressListener').and.callThrough()
+            service.loadFromSheets()
             expect(withDownloadProgressListener).toHaveBeenCalled()
+
         })
-        it('should set the publicatons objects if successful', fakeAsync(() => {
+        it('should call handleDownload if successful', fakeAsync(() => {
+            let handleDownload = spyOn( service, 'handleDownload' )
+            progressService.responseTime = 3000
             progressService.response = {
-                'text': () => { return MOCK_PUBLICATIONS_CSV}
+                'text': () => { return MOCK_PUBLICATIONS_CSV},
+                'status' : 200
+            }
+            service.loadFromSheets()
+            tick(3010)
+            expect(handleDownload).toHaveBeenCalled()
+            tick(125000)
+        }))
+        it('should call handleFailedDownload if not successful', fakeAsync(() => {
+            let handleFailedDownload = spyOn( service, 'handleFailedDownload' )
+            progressService.responseTime = 100
+            progressService.response = {
+                'text': () => { return null },
+                'status' : 404
+            }
+            service.loadFromSheets()
+            tick(110)
+            expect(handleFailedDownload).toHaveBeenCalled()
+            tick(125000)
+        }))
+        it('should call handleFailedDownload and cancel http if time exceeds 120000', fakeAsync(() => {
+            let handleFailedDownload = spyOn( service, 'handleFailedDownload' )
+            progressService.responseTime = 180000
+            progressService.response = {
+                'text': () => { return MOCK_PUBLICATIONS_CSV},
+                'status' : 200
+            }
+            service.loadFromSheets()
+            let unsubscribe = spyOn(service.request, 'unsubscribe').and.callThrough()
+            tick(120100)
+            expect(unsubscribe).toHaveBeenCalled()
+            expect(handleFailedDownload).toHaveBeenCalledWith({'status':501})
+        }))
+        it('should call updateProgess during download', fakeAsync(() => {
+            progressService.response = {
+                'text': () => { return MOCK_PUBLICATIONS_CSV},
+                'status' : 200
             }
             progressService.fileSize = service.loadingTotal
             let updateProgress = spyOn(service, 'updateProgress').and.callThrough()
@@ -51,14 +89,24 @@ describe('Publications: PublicationsService', () => {
             expect(updateProgress).toHaveBeenCalledTimes(5)
             tick(1500)
             expect(updateProgress).toHaveBeenCalledTimes(10)
-            expect(service.publications).toEqual(MOCK_PUBLICATIONS)
             tick(500) // to allow the delayed UI updates
         }))
-        it('it should timeout after ###ms if no resonse not complete', () => {
+    })
 
+    describe('handleFailedDownload', () => {
+        let response: any
+        beforeEach(() => {
+            response = {'text': () => { return "some,response,text" },
+                        'status': 404 }
         })
-        it('it should ', () => {
-
+        it('and should output to the console', () => {
+            service.handleFailedDownload(response)
+            expect(log).toHaveBeenCalledWith(`Error: download failed with code 404.`)
+        })
+        it('should call downloadCleanup', () => {
+            let downloadCleanup = spyOn(service, 'downloadCleanup').and.callThrough()
+            service.handleFailedDownload(response)
+            expect(downloadCleanup).toHaveBeenCalled()
         })
     })
 
@@ -77,7 +125,21 @@ describe('Publications: PublicationsService', () => {
             service.handleDownload(response)
             expect(set).toHaveBeenCalledWith('fitPublications', service.publications, {type: StorageType.SESSION})
         })
+        it('should call downloadCleanup', () => {
+            let downloadCleanup = spyOn(service, 'downloadCleanup').and.callThrough()
+            service.handleDownload(response)
+            expect(downloadCleanup).toHaveBeenCalled()
+        })
+    })
+
+    describe('downloadCleanup', () => {
+        it('should cancel the http (in case of timeout)', () => {
+            let clearTimeout = spyOn(window, 'clearTimeout').and.callThrough()
+            service.downloadCleanup()
+            expect(clearTimeout).toHaveBeenCalled()
+        } )
         it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', <any>fakeAsync(() => {
+            let response = {'text': () => { return "some,response,text"} }
             service.loadingProgress = '25%'
             service.loadingStatus = true
             service.handleDownload(response)

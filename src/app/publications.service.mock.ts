@@ -19,33 +19,45 @@ export class MockPersistenceService {
 }
 
 export class MockProgressHttp {
-    public response: any
-    public responseTime: number = 3000
-    public progressSteps: number = 10
-    public fileSize: number = 1000000 // 1 mb
+    public response         :any
+    public responseTime     :number = 3000
+    public progressSteps    :number = 10
+    public fileSize         :number = 1000000 // 1 mb
+    public intID            :any
 
     private observable = class MockObservable {
+        private toID: any
         constructor ( public superThis: MockProgressHttp ) {}
-        subscribe(_responseCallback:Function) {
-            setTimeout(()=>{
-                _responseCallback(this.superThis.response)
+        unsubscribe() {
+            clearInterval(this.superThis.intID)
+            clearTimeout(this.toID)
+        }
+        subscribe(_responseCallbackSuccess:Function, _responseCallbackError:Function): MockObservable {
+            this.toID = setTimeout(()=>{
+                if ( this.superThis.response.status == 200 ) {
+                    _responseCallbackSuccess(this.superThis.response)
+                } else {
+                    _responseCallbackError(this.superThis.response)
+                }
             }, this.superThis.responseTime)
+            return this
         }
     }
 
     withDownloadProgressListener(_progressCallback:Function) {
         // Call progress callbacks in a similar way to the real ProgressHttp
         let x: number = 1
-        let intID = setInterval(() => {
+        this.intID = setInterval(() => {
             let progress = {'loaded': (this.fileSize / this.progressSteps) * x }
             _progressCallback(progress)
             x++
-            if ( x > this.progressSteps ) { clearInterval(intID) }
+            if ( x > this.progressSteps ) { clearInterval(this.intID) }
         }, this.responseTime / this.progressSteps )
         // Return an Http-esque object with 'get', that returns an observable
         // that responds with a set reponse after a set time
         return {'get': () => { return new this.observable(this) }}
     }
+
 }
 
 export class MockPublicationsService {
