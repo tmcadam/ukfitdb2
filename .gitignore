@@ -44,4 +44,5 @@ Thumbs.db
 spikes/
 
 .travis-environment.variables
+ukfitdb2_org.config.yml
 *.zip
