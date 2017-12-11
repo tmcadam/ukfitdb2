@@ -30,23 +30,19 @@ describe('Publications: PublicationsService', () => {
 
     describe('loadFromSheets', () => {
 
-        it('should set loadingStatus to true', () => {
+        it('should set loadingStatus to true', fakeAsync(() => {
             service.loadFromSheets()
             expect(service.loadingStatus).toBeTruthy()
-        })
-        it('should call withDownloadProgressListener', () => {
+            tick(125000)
+        }))
+        it('should call withDownloadProgressListener', fakeAsync(() => {
             let withDownloadProgressListener = spyOn(progressService, 'withDownloadProgressListener').and.callThrough()
             service.loadFromSheets()
             expect(withDownloadProgressListener).toHaveBeenCalled()
-
-        })
+            tick(125000)
+        }))
         it('should call handleDownload if successful', fakeAsync(() => {
             let handleDownload = spyOn( service, 'handleDownload' )
-            progressService.responseTime = 3000
-            progressService.response = {
-                'text': () => { return MOCK_PUBLICATIONS_CSV},
-                'status' : 200
-            }
             service.loadFromSheets()
             tick(3010)
             expect(handleDownload).toHaveBeenCalled()
@@ -67,10 +63,6 @@ describe('Publications: PublicationsService', () => {
         it('should call handleFailedDownload and cancel http if time exceeds 120000', fakeAsync(() => {
             let handleFailedDownload = spyOn( service, 'handleFailedDownload' )
             progressService.responseTime = 180000
-            progressService.response = {
-                'text': () => { return MOCK_PUBLICATIONS_CSV},
-                'status' : 200
-            }
             service.loadFromSheets()
             let unsubscribe = spyOn(service.request, 'unsubscribe').and.callThrough()
             tick(120100)
@@ -78,10 +70,6 @@ describe('Publications: PublicationsService', () => {
             expect(handleFailedDownload).toHaveBeenCalledWith({'status':501})
         }))
         it('should call updateProgess during download', fakeAsync(() => {
-            progressService.response = {
-                'text': () => { return MOCK_PUBLICATIONS_CSV},
-                'status' : 200
-            }
             progressService.fileSize = service.loadingTotal
             let updateProgress = spyOn(service, 'updateProgress').and.callThrough()
             service.loadFromSheets()
@@ -99,15 +87,17 @@ describe('Publications: PublicationsService', () => {
             response = {'text': () => { return "some,response,text" },
                         'status': 404 }
         })
-        it('and should output to the console', () => {
+        it('and should output to the console', fakeAsync(() => {
             service.handleFailedDownload(response)
             expect(log).toHaveBeenCalledWith(`Error: download failed with code 404.`)
-        })
-        it('should call downloadCleanup', () => {
+            tick(500)
+        }))
+        it('should call downloadCleanup', fakeAsync(() => {
             let downloadCleanup = spyOn(service, 'downloadCleanup').and.callThrough()
             service.handleFailedDownload(response)
             expect(downloadCleanup).toHaveBeenCalled()
-        })
+            tick(500)
+        }))
     })
 
     describe('handleDownload', () => {
@@ -115,34 +105,32 @@ describe('Publications: PublicationsService', () => {
         beforeEach(() => {
             response = {'text': () => { return "some,response,text"} }
         })
-        it('should call parseCSV with the data contained in response', () => {
+        it('should call parseCSV with the data contained in response', fakeAsync(() => {
             let parseCSV = spyOn(service, 'parseCSV').and.callThrough()
             service.handleDownload(response)
             expect(parseCSV).toHaveBeenCalledWith("some,response,text")
-        })
-        it('should call set in the persistenceService to cache to the publications data', () => {
-            let set = spyOn(persistenceService, 'set').and.callThrough()
+            tick(500)
+        }))
+        it('should call set in the persistenceService to cache to the publications data and call download cleanup', () => {
+            let set = spyOn(persistenceService, 'set')
+            let downloadCleanup = spyOn(service, 'downloadCleanup')
             service.handleDownload(response)
             expect(set).toHaveBeenCalledWith('fitPublications', service.publications, {type: StorageType.SESSION})
-        })
-        it('should call downloadCleanup', () => {
-            let downloadCleanup = spyOn(service, 'downloadCleanup').and.callThrough()
-            service.handleDownload(response)
             expect(downloadCleanup).toHaveBeenCalled()
         })
     })
 
     describe('downloadCleanup', () => {
-        it('should cancel the http (in case of timeout)', () => {
+        it('should cancel the http (in case of timeout)', fakeAsync(() => {
             let clearTimeout = spyOn(window, 'clearTimeout').and.callThrough()
             service.downloadCleanup()
             expect(clearTimeout).toHaveBeenCalled()
-        } )
+            tick(500)
+        } ))
         it('should set the loadingStatus to false and loadingProgress to 0% after 500ms delay', <any>fakeAsync(() => {
-            let response = {'text': () => { return "some,response,text"} }
             service.loadingProgress = '25%'
             service.loadingStatus = true
-            service.handleDownload(response)
+            service.downloadCleanup()
             expect(service.loadingProgress).toEqual('25%')
             expect(service.loadingStatus).toEqual(true)
             tick(250)
@@ -157,13 +145,14 @@ describe('Publications: PublicationsService', () => {
     describe('reloadPublications', () => {
         let loadFromSheets
         beforeEach(() => {
-            loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough()
-            service.reloadPublications()
+            loadFromSheets = spyOn(service, 'loadFromSheets')
         })
         it('should call loadFromSheets', () => {
+            service.reloadPublications()
             expect(loadFromSheets).toHaveBeenCalled()
         })
         it('and should output to the console', () => {
+            service.reloadPublications()
             expect(log).toHaveBeenCalledWith("Reloading data from sheets.")
         })
     })
@@ -172,29 +161,32 @@ describe('Publications: PublicationsService', () => {
         describe('when publications data exists in the browser cache', () => {
             beforeEach(() => {
                 persistenceService.set( 'fitPublications', MOCK_PUBLICATIONS, StorageType.SESSION )
-                service.loadPublications()
             })
             it('should set the publications property with data from browser cache', () => {
+                service.loadPublications()
                 expect(service.publications).toEqual(MOCK_PUBLICATIONS)
             })
             it('should not call loadFromSheets', () => {
                 let loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough()
+                service.loadPublications()
                 expect(loadFromSheets).not.toHaveBeenCalled()
             })
             it('should output to the console', () => {
+                service.loadPublications()
                 expect(log).toHaveBeenCalledWith("Using cached publications data.")
             })
         })
         describe('when publications data does not exist in the browser cache', () => {
             let loadFromSheets
             beforeEach(() => {
-                loadFromSheets = spyOn(service, 'loadFromSheets').and.callThrough()
-                service.loadPublications()
+                loadFromSheets = spyOn(service, 'loadFromSheets')
             })
             it('should call loadSheets', () => {
+                service.loadPublications()
                 expect(loadFromSheets).toHaveBeenCalled()
             })
             it('should output to the console', () => {
+                service.loadPublications()
                 expect(log).toHaveBeenCalledWith("Loading data from sheets.")
             })
         })

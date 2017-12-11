@@ -19,7 +19,8 @@ export class MockPersistenceService {
 }
 
 export class MockProgressHttp {
-    public response         :any
+    public response         :any = {    'text': () => { return MOCK_PUBLICATIONS_CSV},
+                                        'status' : 200 }
     public responseTime     :number = 3000
     public progressSteps    :number = 10
     public fileSize         :number = 1000000 // 1 mb
