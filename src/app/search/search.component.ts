@@ -1,5 +1,8 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { SearchService } from '../search.service';
+import { Component, Output, Input, EventEmitter }   from '@angular/core'
+
+import { SearchService }        from './search.service'
+import { PublicationsService }  from '../publications.service'
+import { StateService, Display }         from '../state.service'
 
 @Component({
   selector: 'app-search',
@@ -7,11 +10,13 @@ import { SearchService } from '../search.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent {
-    @Output() stateUpdate = new EventEmitter<string>();
-    constructor(private searchService: SearchService) { }
 
-    search (searchTerm: string) {
-        this.searchService.search(searchTerm);
-        this.stateUpdate.emit('results');
+    constructor(public searchService: SearchService,
+                public pubs: PublicationsService,
+                public stateService: StateService) {}
+
+    search () {
+        this.searchService.search()
+        this.stateService.state = Display.RESULTS
     }
 }

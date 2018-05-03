@@ -1,5 +1,8 @@
-import { Component, Input, ViewEncapsulation, ViewChild } from '@angular/core';
-import { SearchService } from '../search.service';
+import { Component, Input,
+    ViewEncapsulation, ViewChild }          from '@angular/core'
+
+import { SearchService }                    from '../search/search.service'
+import { StateService, Display }            from '../state.service'
 
 @Component({
   selector: 'app-results',
@@ -8,24 +11,24 @@ import { SearchService } from '../search.service';
   encapsulation: ViewEncapsulation.None
 })
 export class ResultsComponent  {
-    @ViewChild('resultsTable') table: any;
+    @ViewChild('resultsTable') table    :any
+    currentRow                          :HTMLElement
+    display                             = Display
 
-    @Input() state: string;
-    constructor(private search: SearchService) { }
-
-    currentRow;
+    constructor(private search: SearchService,
+                public stateService: StateService) { }
 
     toggleExpandRow(row) {
         if (this.currentRow && this.currentRow != row) {
-            this.table.rowDetail.toggleExpandRow(this.currentRow);
+            this.table.rowDetail.toggleExpandRow(this.currentRow)
         }
-        this.table.rowDetail.toggleExpandRow(row);
+        this.table.rowDetail.toggleExpandRow(row)
     }
 
     onDetailToggle(event) {
-        this.currentRow = null;
+        this.currentRow = null
         if(!document.querySelector(".datatable-row-detail")) {
-            this.currentRow = event.value;
+            this.currentRow = event.value
         }
     }
 }

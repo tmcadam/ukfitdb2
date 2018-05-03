@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input }     from '@angular/core'
+
+import { StateService, Display }         from '../state.service'
 
 @Component({
   selector: 'app-introduction',
@@ -6,8 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./introduction.component.css']
 })
 export class IntroductionComponent {
-    
-    @Input()
-    state: string;
-
+    public display = Display
+    constructor(public stateService: StateService) {}
 }

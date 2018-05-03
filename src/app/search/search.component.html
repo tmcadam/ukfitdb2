@@ -1,8 +1,20 @@
-<div class="input-group" id="search">
-    <input type="text" class="form-control" placeholder="Enter a search term" #searchInput (keyup.enter)="search(searchInput.value)">
-    <span class="input-group-btn">
-        <button class="btn btn-secondary"
-                type="button"
-                (click)="search(searchInput.value)">Search</button>
-    </span>
+<div class="row search">
+    <div class="col s1"></div>
+    <div class="input-field col s8">
+        <input  id="searchInput"
+                type="text"
+                class="form-control"
+                placeholder="Enter a search term"
+                [(ngModel)]="searchService.searchTerm"
+                (keyup.enter)="search()">
+    </div>
+    <div class="input-field col s3">
+        <a  class="waves-effect waves-light btn align-left"
+            id="searchButton"
+            [class.disabled]="pubs.loadingStatus"
+            (click)="search()">
+            <i class="material-icons right">search</i>
+                Search
+        </a>
+    </div>
 </div>

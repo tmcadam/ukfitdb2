@@ -1,4 +1,4 @@
-<div *ngIf="state == 'results'">
+<div *ngIf="stateService.state == display.RESULTS">
     <ngx-datatable
             #resultsTable
             class="material"
@@ -16,10 +16,12 @@
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div class="table-detail">
                         <div class="heading id">#: {{row.id}}</div>
-                        <table>
-                        <tr *ngIf="row.reference" ><td class="heading">Reference: </td><td>{{row.reference}}<td></tr>
-                        <tr *ngIf="row.keywords" ><td class="heading">Keywords: </td><td>{{row.keywords}}</td></tr>
-                        </table>
+                        <div class="table">
+                            <table>
+                                <tr *ngIf="row.reference" ><td class="heading">Reference: </td><td>{{row.reference}}<td></tr>
+                                <tr *ngIf="row.keywords" ><td class="heading">Keywords: </td><td>{{row.keywords}}</td></tr>
+                            </table>
+                        </div>
                     </div>
                 </ng-template>
             </ngx-datatable-row-detail>

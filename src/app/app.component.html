@@ -1,6 +1,40 @@
-<h1>
-    FIT Publications Database
-</h1>
-<app-search (stateUpdate)="stateUpdate($event)"></app-search>
-<app-introduction [state]="state"></app-introduction>
-<app-results [state]="state"></app-results>
+<nav class="blue" role="navigation">
+    <div class="nav-wrapper container">
+        <a class="brand-logo" href="#" (click)="navHome()" >FIT Publications Database</a>
+    </div>
+    <div class="progress" [style.display]="pubs.loadingStatus ? 'block' : 'none'">
+        <div class="determinate blue darken-2" [style.width]="pubs.loadingProgress"></div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <app-search></app-search>
+    <app-introduction></app-introduction>
+    <app-results></app-results>
+
+    <div class="fixed-action-btn vertical click-to-toggle">
+        <a class="btn-floating btn-large green ">
+            <i class="large material-icons">menu</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating red" id="btn-home" (click)="navHome()"><i class="material-icons">home</i></a></li>
+            <li>
+                <a  id="btn-refresh"
+                    class="btn-floating yellow darken-1"
+                    [class.pulse]="pubs.loadingStatus"
+                    (click)="refreshData()">
+                    <i class="material-icons">refresh</i>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<footer>
+   <div class="blue z-depth-2">
+       <div class="container copyright">
+           <span class="center-align copyright">© 2013-18 Falkland Islands Trust</span>
+       </div>
+   </div>
+</footer>
