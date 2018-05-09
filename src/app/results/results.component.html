@@ -14,7 +14,7 @@
             <!-- Row Defs -->
             <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                    <div class="table-detail">
+                    <div class="table-detail"  (click)="toggleExpandRow(row)">
                         <div class="heading id">#: {{row.id}}</div>
                         <div class="table">
                             <table>
@@ -42,9 +42,27 @@
                    </a>
                  </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Title" minWidth="150"></ngx-datatable-column>
-            <ngx-datatable-column name="Year" minWidth="70" maxWidth="70"></ngx-datatable-column>
-            <ngx-datatable-column name="Authors" minWidth="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Title" minWidth="150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="width: 100%;height: 100%;" (click)="toggleExpandRow(row)">
+                        {{row.title}}
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Year" minWidth="70" maxWidth="70">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="width: 100%;height: 100%;" (click)="toggleExpandRow(row)">
+                        {{row.year}}
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Authors" minWidth="150">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="width: 100%;height: 100%;" (click)="toggleExpandRow(row)">
+                        {{row.authors}}
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
     </ngx-datatable>
     <div class="mobile-only">
         <div class="collapsible-counter">{{search.results.length}} found</div>
