@@ -1,3 +1,12 @@
 div.search {
     padding-top: 20px;
 }
+
+a.waves-effect:nth-child(2) {
+    margin-top: 10px;
+    color: #5ec5c9;
+}
+
+a.waves-effect:nth-child(1) {
+    background-color: #5ec5c9;
+}
