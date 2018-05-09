@@ -1,6 +1,7 @@
 <nav class="blue" role="navigation">
     <div class="nav-wrapper container">
-        <a class="brand-logo" href="#" (click)="navHome()" >FIT Publications Database</a>
+        <a class="brand-logo left desktop-only" href="#" (click)="navHome()" ><img src="assets/images/fit-logo.png" height="50"></a><div class="brand-text desktop-only">FIT Publications Database</div>
+        <a class="brand-logo left mobile-only" href="#" (click)="navHome()" ><img src="assets/images/fit-logo.png" height="40"></a><div class="brand-text-small mobile-only">FIT Publications Database</div>
     </div>
     <div class="progress" [style.display]="pubs.loadingStatus ? 'block' : 'none'">
         <div class="determinate blue darken-2" [style.width]="pubs.loadingProgress"></div>
@@ -13,7 +14,7 @@
     <app-introduction></app-introduction>
     <app-results></app-results>
 
-    <div class="fixed-action-btn vertical click-to-toggle">
+    <div class="fixed-action-btn vertical click-to-toggle desktop-only">
         <a class="btn-floating btn-large green ">
             <i class="large material-icons">menu</i>
         </a>

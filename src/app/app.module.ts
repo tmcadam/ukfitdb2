@@ -15,6 +15,7 @@ import { StateService } from './state.service'
 import { PersistenceModule } from 'angular-persistence'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable'
 import { ProgressHttpModule } from "angular-progress-http"
+import { MaterializeModule } from "angular2-materialize"
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ProgressHttpModule } from "angular-progress-http"
     HttpModule,
     ProgressHttpModule,
     PersistenceModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    MaterializeModule,
   ],
   providers: [PublicationsService, SearchService, StateService],
   bootstrap: [AppComponent]

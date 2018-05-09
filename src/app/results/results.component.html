@@ -1,7 +1,7 @@
 <div *ngIf="stateService.state == display.RESULTS">
     <ngx-datatable
             #resultsTable
-            class="material"
+            class="material desktop-only"
             [messages]="{   emptyMessage: 'No publications found',
                             totalMessage: 'results'}"
             [rows]="search.results"
@@ -46,4 +46,15 @@
             <ngx-datatable-column name="Year" minWidth="70" maxWidth="70"></ngx-datatable-column>
             <ngx-datatable-column name="Authors" minWidth="150"></ngx-datatable-column>
     </ngx-datatable>
+    <div class="mobile-only">
+        <div class="collapsible-counter">{{search.results.length}} found</div>
+        <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+             <li *ngFor="let pub of search.results">
+                 <div class="collapsible-header">
+                     {{pub.title | slice:0:60}}...
+                 </div>
+                 <div class="collapsible-body"><span class="collapasible-title">{{pub.title}}</span> {{pub.authors}} ({{pub.year}}). <i>{{pub.reference}}</i></div>
+             </li>
+         </ul>
+     </div>
 </div>

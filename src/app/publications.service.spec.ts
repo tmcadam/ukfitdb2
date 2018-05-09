@@ -111,6 +111,12 @@ describe('Publications: PublicationsService', () => {
             expect(parseCSV).toHaveBeenCalledWith("some,response,text")
             tick(500)
         }))
+        it('should call cleanYears', fakeAsync(() => {
+            let cleanYears = spyOn(service, 'cleanYears').and.callThrough()
+            service.handleDownload(response)
+            expect(cleanYears).toHaveBeenCalled()
+            tick(500)
+        }))
         it('should call set in the persistenceService to cache to the publications data and call download cleanup', () => {
             let set = spyOn(persistenceService, 'set')
             let downloadCleanup = spyOn(service, 'downloadCleanup')
@@ -219,6 +225,16 @@ describe('Publications: PublicationsService', () => {
             progressEvent = {'loaded': service.loadingTotal / 4 }
             service.updateProgress(progressEvent)
             expect(log).toHaveBeenCalledWith(`Downloading 25%`)
+        })
+    })
+
+    describe('cleanYears', () => {
+        it('should remplace any year 0 with a -', () => {
+            service.parseCSV(MOCK_PUBLICATIONS_CSV)
+            service.publications[0].year = '0'
+            expect(service.publications[0].year).toEqual('0')
+            service.cleanYears()
+            expect(service.publications[0].year).toEqual('-')
         })
     })
 })

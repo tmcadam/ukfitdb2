@@ -1,3 +1,19 @@
 .progress {
     margin-top: 0px;
 }
+
+.brand-logo {
+    margin-top: 7.5px;
+}
+.brand-text {
+    margin-left: 70px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #EAE9E9;
+}
+.brand-text-small {
+    margin-left: 65px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #EAE9E9;
+}
