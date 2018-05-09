@@ -11,6 +11,7 @@ html {
 }
 body {
   margin-bottom: 80px; /* Margin bottom by footer height */
+  min-width: 300px;
 }
 footer {
   position: absolute;
@@ -24,4 +25,24 @@ footer {
     text-align: center!important;
     font-weight: 300;
     color: white;
+}
+
+//medium+ screen sizes
+@media (min-width:601px) {
+    .desktop-only {
+        display:block !important;
+    }
+    .mobile-only {
+        display:none !important;
+    }
+}
+
+//small screen sizes
+@media (max-width: 600px) {
+    .mobile-only {
+        display:block !important;
+    }
+    .desktop-only {
+        display:none !important;
+    }
 }

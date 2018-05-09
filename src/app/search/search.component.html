@@ -1,6 +1,6 @@
 <div class="row search">
-    <div class="col s1"></div>
-    <div class="input-field col s8">
+    <div class="input-field col s1"></div>
+    <div class="input-field col s8 m8 l9">
         <input  id="searchInput"
                 type="text"
                 class="form-control"
@@ -8,13 +8,18 @@
                 [(ngModel)]="searchService.searchTerm"
                 (keyup.enter)="search()">
     </div>
-    <div class="input-field col s3">
-        <a  class="waves-effect waves-light btn align-left"
+    <div class="input-field col s3 m3 l2">
+        <a  class="waves-effect waves-light btn desktop-only"
             id="searchButton"
             [class.disabled]="pubs.loadingStatus"
             (click)="search()">
-            <i class="material-icons right">search</i>
-                Search
+            <i class="material-icons align-center">search</i>
+        </a>
+        <a  class="waves-effect waves-light mobile-only"
+            id="searchButton"
+            [class.disabled]="pubs.loadingStatus"
+            (click)="search()">
+            <i class="material-icons">search</i>
         </a>
     </div>
 </div>
