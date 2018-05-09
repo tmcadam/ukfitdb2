@@ -2,6 +2,22 @@
 @import '~@swimlane/ngx-datatable/release/themes/material.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
 
+.collapsible-header {
+    font-weight: bold;
+    color: #606060;
+}
+.collapsible-body {
+    background-color: #dddddd;
+    color: #606060;
+}
+.collapasible-title {
+    font-weight: bolder;
+}
+.collapsible-counter {
+    font-size: 11px;
+}
+
+
 .table-detail {
     padding-left: 80px;
     font-size: 14px;
