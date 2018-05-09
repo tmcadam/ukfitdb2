@@ -33,7 +33,7 @@ module.exports = function (config) {
     browsers: ['ChromiumHeadless'],
     singleRun: false,
     customLaunchers: {
-        ChromeHeadless: {
+        ChromiumHeadless: {
             base: 'Chromium',
             flags: [
                 '--headless',
