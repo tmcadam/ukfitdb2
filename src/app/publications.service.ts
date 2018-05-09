@@ -21,8 +21,17 @@ export class PublicationsService {
 
     constructor(private persistenceService: PersistenceService, public http: ProgressHttp) {}
 
+    cleanYears(): void {
+        for (let pub of this.publications) {
+            if (pub.year == '0') {
+                pub.year = '-'
+            }
+        }
+    }
+
     handleDownload(response): void {
         this.parseCSV(response.text())
+        this.cleanYears()
         this.persistenceService.set('fitPublications', this.publications, {type: StorageType.SESSION})
         this.downloadCleanup()
     }
