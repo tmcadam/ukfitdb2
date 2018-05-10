@@ -64,12 +64,19 @@
                 </ng-template>
             </ngx-datatable-column>
     </ngx-datatable>
+
+    <!-- A collapsible list view more suitable for small screens -->
     <div class="mobile-only">
         <div class="collapsible-counter">{{search.results.length}} found</div>
         <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
              <li *ngFor="let pub of search.results">
                  <div class="collapsible-header">
-                     {{pub.title | slice:0:60}}...
+                     <table>
+                     <tr>
+                         <td class="collapsible-header-title">{{pub.title | slice:0:60}}...</td>
+                         <td class="collapsible-id">#{{pub.id}}</td>
+                     </tr>
+                    </table>
                  </div>
                  <div class="collapsible-body"><span class="collapasible-title">{{pub.title}}</span> {{pub.authors}} ({{pub.year}}). <i>{{pub.reference}}</i></div>
              </li>
