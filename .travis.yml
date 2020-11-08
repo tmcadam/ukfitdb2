@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-   - node # will use latest node
+   - "v10.23.0" # will use latest node
 
 addons:
   apt:
