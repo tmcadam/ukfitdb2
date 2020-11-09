@@ -23,7 +23,7 @@ else
 fi
 
 DEPLOY_PASS_DEC="$(echo $DEPLOY_PASS | base64 -d)"
-sshpass -p $DEPLOY_PASS_DEC scp -o stricthostkeychecking=no "${PROJECT_DIR}/dist-${1}.zip" ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_HOME}
-sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST sudo rm -rf "${DEPLOY_PATH}/*"
-sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST sudo unzip -q "${DEPLOY_HOME}/dist-${1}.zip" -d "${DEPLOY_PATH}/"
-sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST sudo rm "${DEPLOY_HOME}/dist-${1}.zip"
+sshpass -p $DEPLOY_PASS_DEC scp -o stricthostkeychecking=no -P $DEPLOY_PORT "${PROJECT_DIR}/dist-${1}.zip" ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_HOME}
+sshpass -e ssh -o stricthostkeychecking=no -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST sudo rm -rf "${DEPLOY_PATH}/*"
+sshpass -e ssh -o stricthostkeychecking=no -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST sudo unzip -q "${DEPLOY_HOME}/dist-${1}.zip" -d "${DEPLOY_PATH}/"
+sshpass -e ssh -o stricthostkeychecking=no -p $DEPLOY_PORT $DEPLOY_USER@$DEPLOY_HOST sudo rm "${DEPLOY_HOME}/dist-${1}.zip"
