@@ -6,7 +6,7 @@ import { ProgressHttp }                     from "angular-progress-http"
 import { PublicationsService } from './publications.service'
 
 import { MockPersistenceService, MockProgressHttp } from './publications.service.mock'
-import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV} from './publications.mock'
+import { MOCK_PUBLICATIONS , MOCK_PUBLICATIONS_CSV, MOCK_PUBLICATIONS_CSV_WITH_EMPTY_ROWS} from './publications.mock'
 
 describe('Publications: PublicationsService', () => {
     let service             :PublicationsService
@@ -198,6 +198,15 @@ describe('Publications: PublicationsService', () => {
         })
     })
 
+    describe ('checkValidRow', () => {
+        it('should return false if a row is empty', () => {
+            expect(service.checkValidRow({"id":""})).toEqual(false)
+        })
+        it('should return false if a row contains #REF! values', () => {
+            expect(service.checkValidRow({"id":"#REF!"})).toEqual(false)
+        })
+    })
+
     describe('parseCSV', () => {
         beforeEach(() => {
             service.parseCSV(MOCK_PUBLICATIONS_CSV)
@@ -206,7 +215,11 @@ describe('Publications: PublicationsService', () => {
             expect(service.publications).toEqual(MOCK_PUBLICATIONS)
         })
         it('should output to the console', () => {
-            expect(log).toHaveBeenCalledWith("Parsed publications.")
+            expect(log).toHaveBeenCalledWith("Parsed publications:5")
+        })
+        it('should exclude rows that fail checkValidRow', () => {
+            service.parseCSV(MOCK_PUBLICATIONS_CSV_WITH_EMPTY_ROWS)
+            expect(service.publications).toEqual(MOCK_PUBLICATIONS)
         })
     })
 

@@ -54,10 +54,24 @@ export class PublicationsService {
         this.loadFromSheets()
     }
 
+    checkValidRow(row: object): boolean {
+      if (row["id"] === "" || row["id"] === "#REF!") {
+        return false
+      }
+      return true
+    }
+
     parseCSV(csvData: string): void {
         let results = Papa.parse(csvData, { header: true })
-        this.publications = results.data
-        console.log("Parsed publications.")
+        if (results) {
+          this.publications = []
+          results.data.forEach(element => {
+            if (this.checkValidRow(element)){
+                this.publications.push(element)
+            }
+          })
+        }
+        console.log("Parsed publications:" + this.publications.length )
     }
 
     updateProgress(progress): void {
