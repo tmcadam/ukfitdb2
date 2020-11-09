@@ -22,7 +22,7 @@ else
     # sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST bash "${DEPLOY_HOME}/db_backups/ukfitdb2/install_cronjobs.sh"
 fi
 
-DEPLOY_PASS="$(echo ${DEPLOY_PASS} | base64 -d)"
+DEPLOY_PASS="$(echo $DEPLOY_PASS | base64 -d)"
 sshpass -p $DEPLOY_PASS scp -o stricthostkeychecking=no "${PROJECT_DIR}/dist-${1}.zip" ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_HOME}
 sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST rm -rf "${DEPLOY_PATH}/*"
 sshpass -e ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST unzip -q "${DEPLOY_HOME}/dist-${1}.zip" -d "${DEPLOY_PATH}/"
