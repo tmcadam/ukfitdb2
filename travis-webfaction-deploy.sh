@@ -6,7 +6,7 @@ PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export SSHPASS=$DEPLOY_PASS
 
 
-curl -o "${PROJECT_DIR}/dist/assets/publications.csv"  https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MirpSf_ARZD9wrv3PzSiAjWU7JwbmK64j91p_kUi4uter83dLSdzsrX8NwO4Tu28-aMs6s05dfd6/pub?gid=845632468&single=true&output=csv
+curl -s -o "${PROJECT_DIR}/dist/assets/publications.csv"  https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6MirpSf_ARZD9wrv3PzSiAjWU7JwbmK64j91p_kUi4uter83dLSdzsrX8NwO4Tu28-aMs6s05dfd6/pub?gid=845632468&single=true&output=csv
 
 cd "${PROJECT_DIR}/dist/"
 zip -r "${PROJECT_DIR}/dist-${1}.zip" ./ >/dev/null 2>&1
