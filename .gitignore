@@ -46,3 +46,5 @@ spikes/
 .travis-environment.variables
 ukfitdb2_org.config.yml
 *.zip
+secrets.txt
+deploy.sh
